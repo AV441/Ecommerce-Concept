@@ -8,15 +8,15 @@
 import UIKit
 import SDWebImage
 
-protocol BestSellerCellDelegate {
+protocol BestSellerCellDelegate: AnyObject {
     func likeButtonTapped(on item: BestSellerItem)
 }
 
 final class BestSellerCollectionViewCell: UICollectionViewCell {
     static let id = "BestSellerCollectionViewCell"
     
-    var delegate: BestSellerCellDelegate?
-    var item: BestSellerItem?
+    weak var delegate: BestSellerCellDelegate?
+    private var item: BestSellerItem?
     
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -52,7 +52,7 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
         button.layer.shadowOpacity = 1
         button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15).cgColor
         button.layer.shadowRadius = 20
-        button.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         return button
     }()
     
@@ -65,15 +65,19 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        layer.cornerRadius = 10
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 10
+        contentView.isUserInteractionEnabled = false
         
+        makeSubviews()
+    }
+    
+    private func makeSubviews() {
         addSubview(imageView)
         addSubview(likeButton)
         addSubview(titleLabel)
         addSubview(totalPriceLabel)
         addSubview(salePriceLabel)
-        contentView.isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {
@@ -130,7 +134,7 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     }
     
     @objc
-    func likeButtonTapped() {
+    func didTapLikeButton() {
         if let item = item {
             delegate?.likeButtonTapped(on: item)
         }

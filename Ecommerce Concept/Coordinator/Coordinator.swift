@@ -55,9 +55,10 @@ final class AppCoordinator: Coordinator {
     }
     
     func showCart() {
-//        let viewController = CartViewController()
-//        viewController.coordinator = self
-//        viewController.viewModel = CartViewModel()
+        let viewController = CartViewController()
+        viewController.viewModel = CartViewModel(networkManager: NetworkManager.shared,
+                                                 coordinator: self)
+        navigationController.pushViewController(viewController, animated: true)
     }
     
 }

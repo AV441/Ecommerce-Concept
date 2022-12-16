@@ -14,7 +14,6 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     var roundedView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -22,7 +21,6 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     

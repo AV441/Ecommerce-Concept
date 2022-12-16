@@ -12,7 +12,6 @@ extension HomeView {
     
     func makeCollectionView() -> UICollectionView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor(named: "Background")
         
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.id)
@@ -139,12 +138,10 @@ extension HomeView {
         let tabView = UIView()
         tabView.layer.cornerRadius = 30
         tabView.backgroundColor = UIColor(named: "Midnight")
-        tabView.translatesAutoresizingMaskIntoConstraints = false
         
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.addArrangedSubview(explorerButton)
         stackView.addArrangedSubview(cartButton)
@@ -166,7 +163,6 @@ extension HomeView {
         button.setTitle(title, for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
 }

@@ -14,6 +14,14 @@
 		7523F5CC2949921E00183759 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523F5CB2949921E00183759 /* UIColor+extension.swift */; };
 		7523F5CE2949EC9500183759 /* SectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523F5CD2949EC9500183759 /* SectionButton.swift */; };
 		7523F5D02949ECE700183759 /* DetailsView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523F5CF2949ECE700183759 /* DetailsView+extension.swift */; };
+		752BABF2294C3E790045EE46 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABF1294C3E790045EE46 /* CartViewController.swift */; };
+		752BABF5294C3E880045EE46 /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABF4294C3E880045EE46 /* CartViewModel.swift */; };
+		752BABF7294C3F250045EE46 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABF6294C3F250045EE46 /* CartModel.swift */; };
+		752BABF9294C42430045EE46 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABF8294C42430045EE46 /* CartView.swift */; };
+		752BABFC294C4EF10045EE46 /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABFB294C4EF10045EE46 /* CartCell.swift */; };
+		752BABFE294CA3D70045EE46 /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABFD294CA3D70045EE46 /* UIButton+extension.swift */; };
+		752BAC00294CA65C0045EE46 /* Formatter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BABFF294CA65C0045EE46 /* Formatter+extension.swift */; };
+		752BAC02294CA6760045EE46 /* Numeric+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BAC01294CA6760045EE46 /* Numeric+extension.swift */; };
 		75A1DD78294373E0009A5E63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A1DD77294373E0009A5E63 /* AppDelegate.swift */; };
 		75A1DD7C294373E0009A5E63 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A1DD7B294373E0009A5E63 /* HomeViewController.swift */; };
 		75A1DD81294373E2009A5E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A1DD80294373E2009A5E63 /* Assets.xcassets */; };
@@ -48,6 +56,14 @@
 		7523F5CB2949921E00183759 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		7523F5CD2949EC9500183759 /* SectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionButton.swift; sourceTree = "<group>"; };
 		7523F5CF2949ECE700183759 /* DetailsView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailsView+extension.swift"; sourceTree = "<group>"; };
+		752BABF1294C3E790045EE46 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		752BABF4294C3E880045EE46 /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		752BABF6294C3F250045EE46 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
+		752BABF8294C42430045EE46 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		752BABFB294C4EF10045EE46 /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
+		752BABFD294CA3D70045EE46 /* UIButton+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
+		752BABFF294CA65C0045EE46 /* Formatter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+extension.swift"; sourceTree = "<group>"; };
+		752BAC01294CA6760045EE46 /* Numeric+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Numeric+extension.swift"; sourceTree = "<group>"; };
 		75A1DD74294373E0009A5E63 /* Ecommerce Concept.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ecommerce Concept.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75A1DD77294373E0009A5E63 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75A1DD7B294373E0009A5E63 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +129,51 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		752BABEE294C3E5C0045EE46 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				752BABF6294C3F250045EE46 /* CartModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		752BABEF294C3E620045EE46 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				752BABFA294C4EE70045EE46 /* Cell */,
+				752BABF1294C3E790045EE46 /* CartViewController.swift */,
+				752BABF8294C42430045EE46 /* CartView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		752BABF0294C3E660045EE46 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				752BABF4294C3E880045EE46 /* CartViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		752BABFA294C4EE70045EE46 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				752BABFB294C4EF10045EE46 /* CartCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		752BAC03294CAEBE0045EE46 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				75A1DD77294373E0009A5E63 /* AppDelegate.swift */,
+				75A1DD82294373E2009A5E63 /* LaunchScreen.storyboard */,
+				75A1DD80294373E2009A5E63 /* Assets.xcassets */,
+				75A1DD85294373E2009A5E63 /* Info.plist */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
 		75A1DD6B294373E0009A5E63 = {
 			isa = PBXGroup;
 			children = (
@@ -141,10 +202,7 @@
 				75EF4BBD294739D200F12EBA /* Cart Module */,
 				75A1DDA529448A4C009A5E63 /* Extension */,
 				75A1DD9E294489D2009A5E63 /* Manager */,
-				75A1DD77294373E0009A5E63 /* AppDelegate.swift */,
-				75A1DD82294373E2009A5E63 /* LaunchScreen.storyboard */,
-				75A1DD80294373E2009A5E63 /* Assets.xcassets */,
-				75A1DD85294373E2009A5E63 /* Info.plist */,
+				752BAC03294CAEBE0045EE46 /* Supporting files */,
 			);
 			path = "Ecommerce Concept";
 			sourceTree = "<group>";
@@ -200,6 +258,9 @@
 				75A1DD9829446929009A5E63 /* UIView+extension.swift */,
 				75EF4BBA2947204B00F12EBA /* UIStackView+extension.swift */,
 				7523F5CB2949921E00183759 /* UIColor+extension.swift */,
+				752BABFD294CA3D70045EE46 /* UIButton+extension.swift */,
+				752BABFF294CA65C0045EE46 /* Formatter+extension.swift */,
+				752BAC01294CA6760045EE46 /* Numeric+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -273,6 +334,9 @@
 		75EF4BBD294739D200F12EBA /* Cart Module */ = {
 			isa = PBXGroup;
 			children = (
+				752BABF0294C3E660045EE46 /* ViewModel */,
+				752BABEF294C3E620045EE46 /* View */,
+				752BABEE294C3E5C0045EE46 /* Model */,
 			);
 			path = "Cart Module";
 			sourceTree = "<group>";
@@ -428,20 +492,27 @@
 			files = (
 				75EF4BAB2946FE5200F12EBA /* Coordinator.swift in Sources */,
 				75EF4BB62947124D00F12EBA /* FiltersViewModel.swift in Sources */,
+				752BAC00294CA65C0045EE46 /* Formatter+extension.swift in Sources */,
+				752BABFE294CA3D70045EE46 /* UIButton+extension.swift in Sources */,
 				75EF4BC82947799A00F12EBA /* PhoneDetails.swift in Sources */,
 				75A1DDAA29448B29009A5E63 /* ApiResponse.swift in Sources */,
 				75A1DDA829448AD9009A5E63 /* NetworkManager.swift in Sources */,
 				75EF4BB929471FCE00F12EBA /* FiltersView.swift in Sources */,
 				75A1DD9B29446EF1009A5E63 /* BestSellerCollectionViewCell.swift in Sources */,
+				752BABF9294C42430045EE46 /* CartView.swift in Sources */,
 				7512F4C52944DBD2003F0027 /* HomeView.swift in Sources */,
 				75EF4BC229473A1600F12EBA /* DetailsViewModel.swift in Sources */,
 				75A1DDA229448A1E009A5E63 /* HomeViewModel.swift in Sources */,
 				75A1DD9D29447B2F009A5E63 /* CollectionHeaderView.swift in Sources */,
+				752BABF5294C3E880045EE46 /* CartViewModel.swift in Sources */,
 				75A1DD8E29445254009A5E63 /* CategoryCollectionViewCell.swift in Sources */,
 				7523F5CC2949921E00183759 /* UIColor+extension.swift in Sources */,
 				75EF4BC429473A2000F12EBA /* DetailsViewController.swift in Sources */,
+				752BABF7294C3F250045EE46 /* CartModel.swift in Sources */,
 				75A1DD7C294373E0009A5E63 /* HomeViewController.swift in Sources */,
 				7512F4CD29460D39003F0027 /* HomeView+extension.swift in Sources */,
+				752BABFC294C4EF10045EE46 /* CartCell.swift in Sources */,
+				752BABF2294C3E790045EE46 /* CartViewController.swift in Sources */,
 				75EF4BBB2947204B00F12EBA /* UIStackView+extension.swift in Sources */,
 				75A1DD9929446929009A5E63 /* UIView+extension.swift in Sources */,
 				75A1DD952944604D009A5E63 /* HotSalesCollectionViewCell.swift in Sources */,
@@ -453,6 +524,7 @@
 				75A1DD9729446709009A5E63 /* UIScreen+extension.swift in Sources */,
 				7523F5CA294869E300183759 /* DetailsCollectionViewCell.swift in Sources */,
 				7523F5D02949ECE700183759 /* DetailsView+extension.swift in Sources */,
+				752BAC02294CA6760045EE46 /* Numeric+extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +666,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AU37Q77AB3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Ecommerce Concept/Info.plist";
+				INFOPLIST_FILE = "Ecommerce Concept/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -622,7 +694,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AU37Q77AB3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Ecommerce Concept/Info.plist";
+				INFOPLIST_FILE = "Ecommerce Concept/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

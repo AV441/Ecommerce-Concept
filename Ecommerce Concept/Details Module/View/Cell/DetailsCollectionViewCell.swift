@@ -11,7 +11,7 @@ import SnapKit
 final class DetailsCollectionViewCell: UICollectionViewCell {
     static let id = "DetailsCollectionViewCell"
     
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true

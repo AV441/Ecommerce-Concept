@@ -14,6 +14,7 @@ final class NetworkManager {
     
     typealias HomeScreenResponseCompletion = (Result<ApiResponse, Error>) -> Void
     typealias DetailsResponseCompletion = (Result<PhoneDetails, Error>) -> Void
+    typealias CartScreenResponseCompletion = (Result<CartItem, Error>) -> Void
     
     let homeScreenApiString = "https://run.mocky.io/v3/654bd15e-b121-49ba-a588-960956b15175"
     let detailsScreenApiString = "https://run.mocky.io/v3/6c14c560-15c6-4248-b9d2-b4508df7d4f5"
@@ -40,12 +41,27 @@ final class NetworkManager {
     /// Requests data for the details screen
     /// - TODO: add custom error to pass in completion block if url equals nil
     /// - Parameter completion: A closure to be executed once the request has finished
-    func requestPhoneDetailsData(completion: @escaping DetailsResponseCompletion) {
+    func requestDetailsScreenData(completion: @escaping DetailsResponseCompletion) {
         guard let url = URL(string: detailsScreenApiString) else {
             return
         }
         
         AF.request(url).responseDecodable(of: PhoneDetails.self, queue: .main) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func requestCartScreenData(completion: @escaping CartScreenResponseCompletion) {
+        guard let url = URL(string: cartScreenApiString) else {
+            return
+        }
+        
+        AF.request(url).responseDecodable(of: CartItem.self, queue: .main) { response in
             switch response.result {
             case .success(let data):
                 completion(.success(data))

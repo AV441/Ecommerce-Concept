@@ -69,5 +69,5 @@ final class HomeViewModel {
             updateBestsellerItem?(IndexPath(item: index, section: 3))
         }
     }
-
+    
 }

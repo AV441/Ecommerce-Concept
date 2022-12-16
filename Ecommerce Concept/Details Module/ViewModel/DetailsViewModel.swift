@@ -22,7 +22,7 @@ final class DetailsViewModel {
     }
     
     func requestData() {
-        networkManager.requestPhoneDetailsData { [unowned self] result in
+        networkManager.requestDetailsScreenData { [unowned self] result in
             switch result {
                 
             case .success(let data):

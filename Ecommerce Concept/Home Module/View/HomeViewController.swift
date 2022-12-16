@@ -26,6 +26,8 @@ final class HomeViewController: UIViewController {
         homeView.collectionView.dataSource = self
         homeView.collectionView.delegate = self
         view.addSubview(homeView)
+        
+        homeView.cartButton.addTarget(self, action: #selector(didTapCartButton), for: .touchUpInside)
     }
     
     private func configureNavigationBar() {
@@ -33,12 +35,17 @@ final class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icFilter"),
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(filterButtonTapped))
+                                                            action: #selector(didTapFilterButton))
     }
     
     @objc
-    private func filterButtonTapped() {
+    private func didTapFilterButton() {
         viewModel.coordinator.showFilters()
+    }
+    
+    @objc
+    private func didTapCartButton() {
+        viewModel.coordinator.showCart()
     }
     
     private func bindViewModel() {

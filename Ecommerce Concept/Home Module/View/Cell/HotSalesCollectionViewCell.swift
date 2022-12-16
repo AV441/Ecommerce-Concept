@@ -20,7 +20,6 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         label.text = "New"
         label.textAlignment = .center
         label.layer.masksToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -29,7 +28,6 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 25, weight: .bold)
         label.textColor = .white
         label.text = "Iphone 12"
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -38,7 +36,6 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 11, weight: .regular)
         label.textColor = .white
         label.text = "Súper. Mega. Rápido."
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -49,7 +46,6 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.font = .systemFont(ofSize: 11, weight: .bold)
         button.layer.cornerRadius = 5
         button.backgroundColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -57,7 +53,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     
@@ -109,29 +105,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        isNewLabel.frame = CGRect(x: contentView.left + 25,
-//                                  y: contentView.top + 14,
-//                                  width: 27,
-//                                  height: 27)
         isNewLabel.layer.cornerRadius = isNewLabel.frame.height/2
-//
-//        titleLabel.frame = CGRect(x: contentView.left + 25,
-//                                  y: contentView.top + 59,
-//                                  width: imageView.width,
-//                                  height: 30)
-//
-//        descriptionLabel.frame = CGRect(x: contentView.left + 25,
-//                                        y: contentView.top + 94,
-//                                        width: contentView.width,
-//                                        height: 13)
-//
-//        button.frame = CGRect(x: contentView.left + 25,
-//                              y: contentView.top + 133,
-//                              width: 98,
-//                              height: 23)
-//
-//        imageView.frame = contentView.bounds
-        imageView.layer.cornerRadius = 10
     }
     
     func configure(withItem item: HotSaleItem) {

@@ -10,19 +10,54 @@ import UIKit
 final class DetailsViewController: UIViewController {
     
     public var viewModel: DetailsViewModel!
-    
     private var detailsView: DetailsView!
     
-    var cartBarButtonItem = UIBarButtonItem()
-    var cartButton = UIButton()
+    let cartButton = UIButton(image: UIImage(named: "cart"))
+    
     var badgeCount: Int = 0
-
+    var badge = UIView()
+    let badgeSize: CGFloat = 20
+    let badgeTag = 9830384
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureView()
         bindViewModel()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = "Product details"
+        
+        let leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(didTapBackButton))
+        
+        let rightBarButtonItem = UIBarButtonItem(image: nil,
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: nil)
+        rightBarButtonItem.customView = cartButton
+        cartButton.addTarget(self, action: #selector(didTapCartButton), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    private func configureView() {
+        view.backgroundColor = UIColor(named: "Background")
+        
+        detailsView = DetailsView()
+        detailsView.delegate = self
+        detailsView.collectionView.dataSource = self
+
+        view.addSubview(detailsView)
+        
+        detailsView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     private func bindViewModel() {
@@ -51,42 +86,6 @@ final class DetailsViewController: UIViewController {
         }
     }
     
-    private func configureView() {
-        view.backgroundColor = UIColor(named: "Background")
-        
-        detailsView = DetailsView()
-        detailsView.delegate = self
-        detailsView.collectionView.dataSource = self
-
-        view.addSubview(detailsView)
-        
-        detailsView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-    
-    private func configureNavigationBar() {
-        navigationItem.title = "Product details"
-        navigationItem.setHidesBackButton(true, animated:false)
-        
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(backToMain))
-        
-        navigationItem.leftBarButtonItem = backBarButtonItem
-        
-        cartButton.setBackgroundImage(UIImage(named: "cart"), for: .normal)
-        
-        cartBarButtonItem.customView = cartButton
-        
-        navigationItem.rightBarButtonItem = cartBarButtonItem
-    }
-    
-    let badgeSize: CGFloat = 20
-    let badgeTag = 9830384
-
     func badgeLabel(withCount count: Int) -> UILabel {
         let badge = UILabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
         badge.translatesAutoresizingMaskIntoConstraints = false
@@ -102,13 +101,11 @@ final class DetailsViewController: UIViewController {
     }
     
     private func removeBadge() {
-//        if let badge = cartBarButtonItem.viewWithTag(badgeTag) {
-//            badge.removeFromSuperview()
-//        }
+        badge.removeFromSuperview()
     }
     
     private func showBadge(withCount count: Int) {
-        let badge = badgeLabel(withCount: count)
+        badge = badgeLabel(withCount: count)
         cartButton.addSubview(badge)
 
         NSLayoutConstraint.activate([
@@ -120,18 +117,19 @@ final class DetailsViewController: UIViewController {
     }
     
     @objc
-    private func backToMain() {
+    private func didTapBackButton() {
         viewModel.coordinator.backToHome()
     }
     
     @objc
-    private func goToCart() {
-//        viewModel.coordinator.showCart()
+    private func didTapCartButton() {
+        viewModel.coordinator.showCart()
     }
     
 }
 
 extension DetailsViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.detailsData?.images.count ?? 0
     }
@@ -142,7 +140,6 @@ extension DetailsViewController: UICollectionViewDataSource {
             cell.configure(with: imageAddress)
         } 
         return cell
-        
     }
 
 }
@@ -153,17 +150,4 @@ extension DetailsViewController: DetailViewDelegate {
         viewModel.addToCart(item: viewModel.detailsData)
     }
     
-}
-
-extension Formatter {
-    static let withSeparator: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.groupingSeparator = ","
-        return formatter
-    }()
-}
-
-extension Numeric {
-    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
 }

@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        Thread.sleep(forTimeInterval: 1)
 
         return true
     }
