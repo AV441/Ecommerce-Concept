@@ -38,12 +38,10 @@ final class DetailsView: UIView {
     lazy var sdImageView = makeCharacteristicImageView(withImageName: "icSD")
     
     lazy var selectColorAndCapacityLabel = makeSelectColorAndCapacityLabel()
-    
     lazy var priceLabel = makePriceLabel()
     
     lazy var featuresStack = makeFeaturesStack()
-    
-    lazy var addToCartStack = makeAddToCartHStack()
+    lazy var addToCartStack = makeAddToCartView()
     
     lazy var colorButtonsScrollView = makeColorButtonsScrollView()
     lazy var capacityButttonsScrollView = makeCapacityButtonsScrollView()

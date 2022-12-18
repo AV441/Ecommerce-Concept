@@ -7,32 +7,40 @@
 
 import Foundation
 
+//protocol CartViewModelProtocol {
+//    var basketItems: Observable<[BasketItem]> { get set }
+//    var totalPrice: Observable<Int> { get set }
+//    var deliveryPrice: Observable<String> { get set }
+//
+//    func addOneItem(withID id: Int)
+//    func removeOneItem(withID id: Int)
+//    func removeAllItems(withID id: Int)
+//    func backToPreviousScreen()
+//    func checkoutOrder()
+// }
+
 final class CartViewModel {
+    var basketItems: Observable<[BasketItem]> = Observable([])
+    var totalPrice: Observable<Int> = Observable(0)
+    var deliveryPrice: Observable<String> = Observable("")
     
     private var networkManager: NetworkManager!
-    var coordinator: Coordinator!
+    private var coordinator: Coordinator!
 
-    var cartItem: CartItem?
-    var basket: [BasketItem] = []
-    var totalPrice: Int = 0
-    
-    var updateView: () -> Void = {}
-    
-    init(networkManager: NetworkManager, coordinator: Coordinator) {
-        self.networkManager = networkManager
+    init(coordinator: Coordinator, networkManager: NetworkManager) {
         self.coordinator = coordinator
+        self.networkManager = networkManager
         requestData()
     }
     
     private func requestData() {
-        networkManager.requestCartScreenData { result in
+        networkManager.requestCartScreenData { [unowned self] result in
             switch result {
 
             case .success(let apiResponse):
-                self.cartItem = apiResponse
-                self.basket = apiResponse.basket
-                self.totalPrice = apiResponse.total
-                self.updateView()
+                basketItems.value = apiResponse.basket
+                totalPrice.value = apiResponse.total
+                deliveryPrice.value = apiResponse.delivery
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }
@@ -40,22 +48,21 @@ final class CartViewModel {
     }
     
     func addOneItem(withID id: Int) {
-        guard var item = basket.first(where: {$0.id == id}),
-              let index = basket.firstIndex(where: {$0.id == id}) else {
+        guard var item = basketItems.value.first(where: {$0.id == id}),
+              let index = basketItems.value.firstIndex(where: {$0.id == id}) else {
             return
         }
         
         var count = item.count ?? 1
         count += 1
         item.count = count
-        basket[index] = item
-        totalPrice += item.price
-        updateView()
+        basketItems.value[index] = item
+        totalPrice.value += item.price
     }
     
     func removeOneItem(withID id: Int) {
-        guard var item = basket.first(where: {$0.id == id}),
-              let index = basket.firstIndex(where: {$0.id == id}) else {
+        guard var item = basketItems.value.first(where: {$0.id == id}),
+              let index = basketItems.value.firstIndex(where: {$0.id == id}) else {
             return
         }
         
@@ -63,18 +70,26 @@ final class CartViewModel {
         if count > 1 {
             count -= 1
             item.count = count
-            basket[index] = item
-            totalPrice -= item.price
-            updateView()
+            basketItems.value[index] = item
+            totalPrice.value -= item.price
         }
     }
     
-    func deleteAllItems(withID id: Int) {
-        guard let item = basket.first(where: {$0.id == id}) else { return }
-        basket.removeAll(where: {$0.id == id})
+    func removeAllItems(withID id: Int) {
+        guard let item = basketItems.value.first(where: {$0.id == id}) else { return }
+        basketItems.value.removeAll(where: {$0.id == id})
         let count = item.count ?? 1
-        totalPrice -= item.price*count
-        updateView()
+        totalPrice.value -= item.price*count
+    }
+    
+    func backToPreviousScreen() {
+        coordinator.backToHome()
+    }
+    
+    func checkoutOrder() {
+        // networkManager.postOrder()
+        NotificationCenter.default.post(name: NSNotification.Name("clearCart"), object: nil)
+        coordinator.backToHome()
     }
     
 }

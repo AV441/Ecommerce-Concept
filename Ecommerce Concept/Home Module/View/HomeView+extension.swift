@@ -137,8 +137,9 @@ extension HomeView {
     func makeTabView() -> UIView {
         let tabView = UIView()
         tabView.layer.cornerRadius = 30
+        tabView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         tabView.backgroundColor = UIColor(named: "Midnight")
-        
+       
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing

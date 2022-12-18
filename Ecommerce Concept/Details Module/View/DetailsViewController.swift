@@ -15,7 +15,7 @@ final class DetailsViewController: UIViewController {
     let cartButton = UIButton(image: UIImage(named: "cart"))
     
     var badgeCount: Int = 0
-    var badge = UIView()
+    lazy var badge = badgeLabel(withCount: 0)
     let badgeSize: CGFloat = 20
     let badgeTag = 9830384
     
@@ -24,6 +24,7 @@ final class DetailsViewController: UIViewController {
         configureNavigationBar()
         configureView()
         bindViewModel()
+        NotificationCenter.default.addObserver(self, selector: #selector(removeBadge), name: NSNotification.Name(rawValue: "clearCart"), object: nil)
     }
     
     private func configureNavigationBar() {
@@ -64,31 +65,30 @@ final class DetailsViewController: UIViewController {
         viewModel.updateView = { [unowned self] in
             guard let details = self.viewModel.detailsData else { return }
             
-            self.detailsView.titleLabel.text = details.title
-            self.detailsView.likeButton.isSelected = details.isFavorites
-            self.detailsView.ratingView.rating = details.rating
-            self.detailsView.cpuLabel.text = details.cpu
-            self.detailsView.cameraLabel.text = details.camera
-            self.detailsView.sdLabel.text = details.sd
-            self.detailsView.ssdLabel.text = details.ssd
-            self.detailsView.priceLabel.text = "$" + details.price.formattedWithSeparator
+            detailsView.titleLabel.text = details.title
+            detailsView.likeButton.isSelected = details.isFavorites
+            detailsView.ratingView.rating = details.rating
+            detailsView.cpuLabel.text = details.cpu
+            detailsView.cameraLabel.text = details.camera
+            detailsView.sdLabel.text = details.sd
+            detailsView.ssdLabel.text = details.ssd
+            detailsView.priceLabel.text = "$" + details.price.formattedWithSeparator
            
-            self.detailsView.collectionView.reloadData()
+            detailsView.collectionView.reloadData()
             
-            self.detailsView.createColorButtons(colors: details.color)
-            self.detailsView.createCapacityButtons(capacityOptions: details.capacity)
-            self.detailsView.makeAddToCartHStack()
+            detailsView.createColorButtons(colors: details.color)
+            detailsView.createCapacityButtons(capacityOptions: details.capacity)
         }
         
         viewModel.updateCartBadge = { [unowned self] in
-            self.badgeCount += 1
-            self.showBadge(withCount: self.badgeCount)
+            badgeCount += 1
+            badge.text = badgeCount.description
+            badge.isHidden = false
         }
     }
     
     func badgeLabel(withCount count: Int) -> UILabel {
         let badge = UILabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
-        badge.translatesAutoresizingMaskIntoConstraints = false
         badge.tag = badgeTag
         badge.layer.cornerRadius = badge.bounds.size.height / 2
         badge.textAlignment = .center
@@ -97,23 +97,24 @@ final class DetailsViewController: UIViewController {
         badge.font = badge.font.withSize(12)
         badge.backgroundColor = .systemRed
         badge.text = String(count)
+        badge.isHidden = true
+        
+        cartButton.addSubview(badge)
+
+        badge.snp.makeConstraints { make in
+            make.centerX.equalTo(cartButton.snp.centerX).offset(12)
+            make.centerY.equalTo(cartButton.snp.centerY).offset(-12)
+            make.width.equalTo(badgeSize)
+            make.height.equalTo(badgeSize)
+        }
         return badge
     }
     
+    @objc
     private func removeBadge() {
-        badge.removeFromSuperview()
-    }
-    
-    private func showBadge(withCount count: Int) {
-        badge = badgeLabel(withCount: count)
-        cartButton.addSubview(badge)
-
-        NSLayoutConstraint.activate([
-            badge.centerXAnchor.constraint(equalTo: cartButton.centerXAnchor, constant: 12),
-            badge.centerYAnchor.constraint(equalTo: cartButton.centerYAnchor, constant: -12),
-            badge.widthAnchor.constraint(equalToConstant: badgeSize),
-            badge.heightAnchor.constraint(equalToConstant: badgeSize)
-        ])
+        badgeCount = 0
+        badge.text = badgeCount.description
+        badge.isHidden = true
     }
     
     @objc

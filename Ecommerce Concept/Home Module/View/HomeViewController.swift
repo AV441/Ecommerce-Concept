@@ -40,12 +40,12 @@ final class HomeViewController: UIViewController {
     
     @objc
     private func didTapFilterButton() {
-        viewModel.coordinator.showFilters()
+        viewModel.showFilters()
     }
     
     @objc
     private func didTapCartButton() {
-        viewModel.coordinator.showCart()
+        viewModel.showCart()
     }
     
     private func bindViewModel() {
@@ -151,9 +151,9 @@ extension HomeViewController: UICollectionViewDelegate {
         case .search:
             break
         case .hotSales:
-            viewModel.coordinator.showDetails()
+            viewModel.showDetails()
         case .bestSeller:
-            viewModel.coordinator.showDetails()
+            viewModel.showDetails()
         }
     }
     

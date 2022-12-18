@@ -21,7 +21,7 @@ final class CartView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor(named: "Midnight")
         view.layer.cornerRadius = 30
-        
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         return view
     }()
     
@@ -93,6 +93,12 @@ final class CartView: UIView {
         return stack
     }()
     
+    var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "Midnight")
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor(named: "Background")
@@ -118,6 +124,7 @@ final class CartView: UIView {
         
         addSubview(titleLabel)
         addSubview(containerView)
+        addSubview(bottomView)
     }
     
     private func makeConstraints() {
@@ -131,6 +138,11 @@ final class CartView: UIView {
         containerView.snp.makeConstraints { make in
             make.height.equalToSuperview().multipliedBy(0.72)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        bottomView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(30)
         }
         
         tableView.snp.makeConstraints { make in

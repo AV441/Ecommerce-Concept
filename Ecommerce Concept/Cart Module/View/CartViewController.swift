@@ -7,16 +7,33 @@
 
 import UIKit
 
+protocol CartViewControllerDelegate: AnyObject {
+    func checkoutButtonTapped()
+}
+
 final class CartViewController: UIViewController {
     
-    public var viewModel: CartViewModel!
+    weak var delegate: CartViewControllerDelegate?
+    
+    private var viewModel: CartViewModel
     private var cartView: CartView!
+    
+    init(viewModel: CartViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureView()
         bindViewModel()
+        
+        cartView.checkoutButton.addTarget(self, action: #selector(didTapCheckoutButton), for: .touchUpInside)
     }
     
     private func configureNavigationBar() {
@@ -42,7 +59,12 @@ final class CartViewController: UIViewController {
     
     @objc
     private func didTapBackButton() {
-        viewModel.coordinator.backToHome()
+        viewModel.backToPreviousScreen()
+    }
+    
+    @objc
+    private func didTapCheckoutButton() {
+        viewModel.checkoutOrder()
     }
     
     private func configureView() {
@@ -53,14 +75,16 @@ final class CartViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.updateView = { [unowned self] in
-            
-            cartView.tableView.reloadData()
-            
-            if let item = viewModel.cartItem {
-                cartView.totalPriceLabel.text = "$\(viewModel.totalPrice.formattedWithSeparator) us"
-                cartView.deliveryPriceLabel.text = item.delivery
-            }
+        viewModel.basketItems.bind { [unowned self] basketItems in
+            self.cartView.tableView.reloadData()
+        }
+        
+        viewModel.totalPrice.bind { [unowned self] totalPrice in
+            self.cartView.totalPriceLabel.text = "$\(totalPrice.formattedWithSeparator) us"
+        }
+        
+        viewModel.deliveryPrice.bind { [unowned self] deliveryPrice in
+            self.cartView.deliveryPriceLabel.text = deliveryPrice
         }
     }
     
@@ -70,7 +94,7 @@ final class CartViewController: UIViewController {
 extension CartViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.basket.count
+        return viewModel.basketItems.value.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,8 +103,8 @@ extension CartViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CartCell.id, for: indexPath) as! CartCell
-        if !viewModel.basket.isEmpty {
-            let item = viewModel.basket[indexPath.section]
+        if !viewModel.basketItems.value.isEmpty {
+            let item = viewModel.basketItems.value[indexPath.section]
             cell.configure(with: item)
             cell.delegate = self
         }
@@ -108,7 +132,6 @@ extension CartViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.height*0.09
-        
     }
 
 }
@@ -125,7 +148,7 @@ extension CartViewController: CartCellDelegate {
     }
     
     func trashButtonTapped(onItem item: BasketItem) {
-        viewModel.deleteAllItems(withID: item.id)
+        viewModel.removeAllItems(withID: item.id)
     }
     
 }

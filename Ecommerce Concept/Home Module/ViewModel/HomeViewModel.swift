@@ -24,8 +24,8 @@ enum Category: String, CaseIterable {
 
 final class HomeViewModel {
     
-    var networkManager: NetworkManager!
-    var coordinator: Coordinator!
+    private var networkManager: NetworkManager
+    private var coordinator: Coordinator
     
     let sections = HomeScreenSection.allCases
     let categories = Category.allCases
@@ -68,6 +68,18 @@ final class HomeViewModel {
             bestSellersItems[index].isFavorites.toggle()
             updateBestsellerItem?(IndexPath(item: index, section: 3))
         }
+    }
+    
+    func showDetails() {
+        coordinator.showDetails()
+    }
+    
+    func showFilters() {
+        coordinator.showFilters()
+    }
+    
+    func showCart() {
+        coordinator.showCart()
     }
     
 }

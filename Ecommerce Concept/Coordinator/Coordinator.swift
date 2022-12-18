@@ -33,8 +33,8 @@ final class AppCoordinator: Coordinator {
     }
     
     func showFilters() {
-        let viewController = FiltersViewController()
-        viewController.viewModel = FiltersViewModel(coordinator: self)
+        let viewModel = FiltersViewModel(coordinator: self)
+        let viewController = FiltersViewController(viewModel: viewModel)
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true)
     }
@@ -55,9 +55,9 @@ final class AppCoordinator: Coordinator {
     }
     
     func showCart() {
-        let viewController = CartViewController()
-        viewController.viewModel = CartViewModel(networkManager: NetworkManager.shared,
-                                                 coordinator: self)
+        let networkManager = NetworkManager.shared
+        let viewModel = CartViewModel(coordinator: self, networkManager: networkManager)
+        let viewController = CartViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
     

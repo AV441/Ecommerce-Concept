@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (5.6.4)
   - Cosmos (23.0.0)
+  - RangeSeekSlider (1.8.0)
   - SDWebImage (5.13.5):
     - SDWebImage/Core (= 5.13.5)
   - SDWebImage/Core (5.13.5)
@@ -9,6 +10,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Cosmos (~> 23.0)
+  - RangeSeekSlider
   - SDWebImage (~> 5.0)
   - SnapKit (~> 5.6.0)
 
@@ -16,15 +18,17 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Cosmos
+    - RangeSeekSlider
     - SDWebImage
     - SnapKit
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
+  RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 9853b0f0628481a5c5c4f93ab483cc7e744d85d9
+PODFILE CHECKSUM: f60daf448219a075e5bfa53d09796d9abc0fc589
 
 COCOAPODS: 1.11.3

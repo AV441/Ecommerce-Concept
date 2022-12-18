@@ -52,6 +52,7 @@ extension DetailsView {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 30
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         
         addSubview(view)
         
@@ -251,7 +252,8 @@ extension DetailsView {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(selectColorAndCapacityLabel.snp.bottom).offset(height*0.54*0.04)
             make.trailing.equalToSuperview().inset(width*0.15)
-            make.height.equalTo(30)
+//            make.height.equalTo(30)
+            make.bottom.equalTo(addToCartStack.snp.top).offset(height*0.54*0.07)
             make.width.equalToSuperview().multipliedBy(0.4)
         }
         return scrollView
@@ -307,29 +309,34 @@ extension DetailsView {
         return label
     }
     
-    func makeAddToCartHStack() -> UIStackView {
+    func makeAddToCartView() -> UIView {
         let titleLabel = makeAddToCartLabel()
-        let HStack = UIStackView(arrangedSubviews: [titleLabel, priceLabel],
-                                 axis: .horizontal,
-                                 distribution: .fill,
-                                 alignment: .center)
         
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "AccentColor")
+        view.layer.cornerRadius = 10
         
-        HStack.backgroundColor = UIColor(named: "AccentColor")
-        HStack.layer.cornerRadius = 10
+        let HStack = UIStackView(arrangedSubviews: [titleLabel, priceLabel], axis: .horizontal)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddToCart))
-        HStack.addGestureRecognizer(tapGesture)
-        
-        containerView.addSubview(HStack)
-        
+        view.addSubview(HStack)
+
         HStack.snp.makeConstraints { make in
-            make.top.equalTo(colorButtonsScrollView.snp.bottom).offset(height*0.54*0.06)
-            make.height.equalToSuperview().multipliedBy(0.12)
-            make.leading.trailing.equalToSuperview().inset(width*0.07)
+            make.leading.trailing.equalToSuperview().inset(30)
+            make.top.bottom.equalToSuperview()
         }
         
-        return HStack
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddToCart))
+        view.addGestureRecognizer(tapGesture)
+        
+        containerView.addSubview(view)
+        
+        view.snp.makeConstraints { make in
+            make.top.equalTo(colorButtonsScrollView.snp.bottom).offset(height*0.54*0.06)
+//            make.height.equalToSuperview().multipliedBy(0.12)
+            make.bottom.equalToSuperview().inset(height*0.54*0.08)
+            make.leading.trailing.equalToSuperview().inset(width*0.07)
+        }
+        return view
     }
     
     @objc
@@ -364,7 +371,6 @@ extension DetailsView {
     @objc
     func didTapAddToCart() {
         delegate?.didTapAddToCartButton()
-        print("Add to Cart")
     }
     
 }

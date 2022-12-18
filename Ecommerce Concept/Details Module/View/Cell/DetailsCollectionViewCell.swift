@@ -22,6 +22,7 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.cornerRadius = 30
+        layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         layer.shadowRadius = 20
         layer.shadowColor = UIColor(red: 0.216, green: 0.305, blue: 0.533, alpha: 0.16).cgColor
         layer.shadowOpacity = 1
