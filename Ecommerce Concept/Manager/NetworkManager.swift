@@ -12,7 +12,7 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-    typealias HomeScreenResponseCompletion = (Result<ApiResponse, Error>) -> Void
+    typealias HomeScreenResponseCompletion = (Result<ShopItem, Error>) -> Void
     typealias DetailsScreenResponseCompletion = (Result<PhoneDetails, Error>) -> Void
     typealias CartScreenResponseCompletion = (Result<CartItem, Error>) -> Void
     
@@ -28,7 +28,7 @@ final class NetworkManager {
             return
         }
         
-        AF.request(url).responseDecodable(of: ApiResponse.self, queue: .main) { response in
+        AF.request(url).responseDecodable(of: ShopItem.self, queue: .main) { response in
             switch response.result {
             case .success(let data):
                 completion(.success(data))
