@@ -10,7 +10,7 @@ import SDWebImage
 import SnapKit
 
 final class HotSalesCollectionViewCell: UICollectionViewCell {
-    static let id = "HotSalesCollectionViewCell"
+    static let id = String(describing: HotSalesCollectionViewCell.self)
     
     private var isNewLabel: UILabel = {
         let label = UILabel()
@@ -39,7 +39,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var button: UIButton = {
+    private var button: UIButton = {
         let button = UIButton()
         button.setTitle("Buy now!", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
@@ -59,13 +59,21 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        makeSubviews()
+        makeConstraints()
+    }
+    
+    private func makeSubviews() {
         addSubview(imageView)
-        
+        addSubview(isNewLabel)
+        addSubview(titleLabel)
+        addSubview(descriptionLabel)
+        addSubview(button)
+    }
+    private func makeConstraints() {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        addSubview(isNewLabel)
         
         isNewLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(25)
@@ -73,23 +81,17 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
             make.width.height.equalTo(27)
         }
         
-        addSubview(titleLabel)
-        
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(isNewLabel.snp.bottom).offset(18)
             make.leading.equalToSuperview().offset(25)
             make.trailing.equalToSuperview()
         }
         
-        addSubview(descriptionLabel)
-        
         descriptionLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(25)
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.trailing.equalToSuperview()
         }
-        
-        addSubview(button)
         
         button.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(25)
@@ -98,7 +100,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(23)
         }
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

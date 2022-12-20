@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class DetailsCollectionViewCell: UICollectionViewCell {
-    static let id = "DetailsCollectionViewCell"
+    static let id = String(describing: DetailsCollectionViewCell.self)
     
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -47,5 +47,3 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     }
     
 }
-
-

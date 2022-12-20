@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Observable<T> {
+final class Observable<T> {
     
     typealias Listener = (T) -> Void
     
@@ -25,7 +25,6 @@ class Observable<T> {
     
     func bind(_ listener: @escaping Listener) {
         self.listener = listener
-//        listener(value)
     }
     
 }

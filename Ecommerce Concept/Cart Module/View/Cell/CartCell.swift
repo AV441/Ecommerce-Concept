@@ -15,7 +15,7 @@ protocol CartCellDelegate: AnyObject {
 }
 
 final class CartCell: UITableViewCell {
-    static let id = "CartCell"
+    static let id = String(describing: CartCell.self)
     
     weak var delegate: CartCellDelegate?
     
@@ -32,7 +32,7 @@ final class CartCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-//        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         label.numberOfLines = 0
         label.textColor = .white
         return label
@@ -40,7 +40,7 @@ final class CartCell: UITableViewCell {
     
     private var priceLabel: UILabel = {
         let label = UILabel()
-//        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 20, weight: .medium)
         label.textColor = UIColor(named: "AccentColor")
         return label
     }()

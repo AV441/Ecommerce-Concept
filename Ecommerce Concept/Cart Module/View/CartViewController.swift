@@ -38,19 +38,19 @@ final class CartViewController: UIViewController {
     
     private func configureNavigationBar() {
         let leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"),
-                                                 style: .plain,
-                                                 target: self,
+                                                style: .plain,
+                                                target: self,
                                                 action: #selector(didTapBackButton))
         
         let rightBarButtonItemWithIcon = UIBarButtonItem(image: UIImage(named: "icAddress"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: nil)
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: nil)
         
         let rightBarButtonItemWithLabel = UIBarButtonItem(title: "Add address",
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: nil)
+                                                          style: .plain,
+                                                          target: nil,
+                                                          action: nil)
         rightBarButtonItemWithLabel.tintColor = .black
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -78,11 +78,11 @@ final class CartViewController: UIViewController {
         viewModel.basketItems.bind { [unowned self] basketItems in
             self.cartView.tableView.reloadData()
         }
-        
+
         viewModel.totalPrice.bind { [unowned self] totalPrice in
             self.cartView.totalPriceLabel.text = "$\(totalPrice.formattedWithSeparator) us"
         }
-        
+
         viewModel.deliveryPrice.bind { [unowned self] deliveryPrice in
             self.cartView.deliveryPriceLabel.text = deliveryPrice
         }

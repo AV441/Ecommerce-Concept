@@ -8,16 +8,36 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
-    
     private var homeView: HomeView!
+    private var viewModel: HomeViewModelProtocol
     
-    public var viewModel: HomeViewModel!
+    init(viewModel: HomeViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureView()
         bindViewModel()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.titleView = UIImageView(image: UIImage(named: "TitleView"))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icFilter"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(didTapFiltersButton))
+    }
+    
+    @objc
+    private func didTapFiltersButton() {
+        viewModel.filtersButtonTapped()
     }
     
     private func configureView() {
@@ -30,22 +50,9 @@ final class HomeViewController: UIViewController {
         homeView.cartButton.addTarget(self, action: #selector(didTapCartButton), for: .touchUpInside)
     }
     
-    private func configureNavigationBar() {
-        navigationItem.titleView = UIImageView(image: UIImage(named: "TitleView"))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icFilter"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(didTapFilterButton))
-    }
-    
-    @objc
-    private func didTapFilterButton() {
-        viewModel.showFilters()
-    }
-    
     @objc
     private func didTapCartButton() {
-        viewModel.showCart()
+        viewModel.cartButtonTapped()
     }
     
     private func bindViewModel() {
@@ -53,7 +60,7 @@ final class HomeViewController: UIViewController {
             self.homeView.collectionView.reloadData()
         }
         
-        viewModel.updateCategoryItem = { [unowned self] indexPathesOfChangedItems in
+        viewModel.updateCategoryItems = { [unowned self] indexPathesOfChangedItems in
             self.homeView.collectionView.reloadItems(at: indexPathesOfChangedItems)
         }
         
@@ -122,17 +129,17 @@ extension HomeViewController: UICollectionViewDataSource {
         
         case .selectCategory:
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.id, for: indexPath) as! CollectionHeaderView
-            sectionHeader.titleLabel.text = section.rawValue
+            sectionHeader.configure(with: section)
             return sectionHeader
         case .search:
             return UICollectionReusableView()
         case .hotSales:
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.id, for: indexPath) as! CollectionHeaderView
-            sectionHeader.titleLabel.text = section.rawValue
+            sectionHeader.configure(with: section)
             return sectionHeader
         case .bestSeller:
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.id, for: indexPath) as! CollectionHeaderView
-            sectionHeader.titleLabel.text = section.rawValue
+            sectionHeader.configure(with: section)
             return sectionHeader
         }
     }
@@ -147,23 +154,28 @@ extension HomeViewController: UICollectionViewDelegate {
         
         switch section {
         case .selectCategory:
-            viewModel.indexOfSelectedCategory = indexPath
+            viewModel.selectCategory(at: indexPath)
         case .search:
             break
         case .hotSales:
-            viewModel.showDetails()
+            viewModel.selectItem(at: indexPath)
         case .bestSeller:
-            viewModel.showDetails()
+            viewModel.selectItem(at: indexPath)
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
 
 // BestSellerCellDelegate
 extension HomeViewController: BestSellerCellDelegate {
     
-    func likeButtonTapped(on item: BestSellerItem) {
-        viewModel.changeFavoriteStatus(forItem: item)
+    func didTapLikeButton(sender: UICollectionViewCell) {
+        if let indexPath = homeView.collectionView.indexPath(for: sender) {
+            viewModel.favouriteButtonTapped(at: indexPath)
+        }
     }
-    
+
 }

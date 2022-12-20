@@ -10,7 +10,6 @@ import SnapKit
 import RangeSeekSlider
 
 final class FiltersView: UIView {
-    
     lazy var tableView = makeTableView()
     lazy var pricePickerView = makePricePickerView()
     
@@ -28,25 +27,6 @@ final class FiltersView: UIView {
     lazy var brandPickerButton = makePickerButton()
     lazy var pricePickerButton = makePickerButton()
     lazy var sizePickerButton = makePickerButton()
-    
-    private func makeLabel(with title: String) -> UILabel {
-        let label = UILabel()
-        label.text = title
-        label.font = .systemFont(ofSize: 18, weight: .medium)
-        return label
-    }
-    
-    private func makePickerButton() -> UIButton {
-        var configuration = UIButton.Configuration.filled()
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
-        configuration.background.image = UIImage(named: "icPicker")
-        configuration.background.backgroundColor = .clear
-        let button = UIButton(configuration: configuration)
-        button.setTitle("All", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.contentHorizontalAlignment = .left
-        return button
-    }
     
     lazy var HStack = UIStackView(arrangedSubviews: [cancelButton,
                                                      titleLabel,
@@ -68,10 +48,19 @@ final class FiltersView: UIView {
         backgroundColor = .white
         layer.cornerRadius = 30
         layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        translatesAutoresizingMaskIntoConstraints = false
         
+        makeSubviews()
+        makeConstraints()
+    }
+    
+    private func makeSubviews() {
         addSubview(HStack)
-        
+        addSubview(VStack)
+        addSubview(tableView)
+        addSubview(pricePickerView)
+    }
+    
+    private func makeConstraints() {
         HStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(44)
             make.trailing.equalToSuperview().offset(-20)
@@ -79,7 +68,11 @@ final class FiltersView: UIView {
             make.height.equalTo(37)
         }
         
-        addSubview(VStack)
+        pricePickerView.snp.makeConstraints { make in
+            make.top.equalTo(HStack.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(30)
+        }
         
         VStack.snp.makeConstraints { make in
             make.top.equalTo(HStack.snp.bottom).offset(30)
@@ -87,17 +80,7 @@ final class FiltersView: UIView {
             make.bottom.equalToSuperview().inset(60)
         }
         
-        addSubview(tableView)
-        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(HStack.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(30)
-        }
-        
-        addSubview(pricePickerView)
-        
-        pricePickerView.snp.makeConstraints { make in
             make.top.equalTo(HStack.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(30)
@@ -191,5 +174,25 @@ final class FiltersView: UIView {
         
         return view
     }
+    
+    private func makeLabel(with title: String) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.font = .systemFont(ofSize: 18, weight: .medium)
+        return label
+    }
+    
+    private func makePickerButton() -> UIButton {
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+        configuration.background.image = UIImage(named: "icPicker")
+        configuration.background.backgroundColor = .clear
+        let button = UIButton(configuration: configuration)
+        button.setTitle("All", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.contentHorizontalAlignment = .left
+        return button
+    }
+    
 }
 

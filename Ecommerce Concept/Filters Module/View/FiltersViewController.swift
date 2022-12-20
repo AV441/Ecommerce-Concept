@@ -10,7 +10,7 @@ import SnapKit
 import RangeSeekSlider
 
 final class FiltersViewController: UIViewController {
-    private var viewModel: FiltersViewModelProtocol!
+    private var viewModel: FiltersViewModelProtocol
     private var filtersView: FiltersView!
 
     init(viewModel: FiltersViewModelProtocol) {

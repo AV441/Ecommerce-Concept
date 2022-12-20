@@ -7,39 +7,43 @@
 
 import Foundation
 
-enum HomeScreenSection: String, CaseIterable {
-    case selectCategory = "Select Category"
-    case search
-    case hotSales = "Hot Sales"
-    case bestSeller = "Best Sellers"
-}
-
-enum Category: String, CaseIterable {
-    case phones = "Phones"
-    case computers = "Computers"
-    case health = "Health"
-    case books = "Books"
-    case accessories = "Accessories"
-}
-
-final class HomeViewModel {
+protocol HomeViewModelProtocol {
+    // Outputs
+    var sections: [HomeScreenSection] { get }
+    var categories: [Category] { get }
+    var hotSalesItems: [HotSaleItem] { get }
+    var bestSellersItems: [BestSellerItem] { get }
+    var indexOfSelectedCategory: IndexPath { get }
     
+    var updateCollectionView: () -> Void { get set }
+    var updateCategoryItems: (([IndexPath]) -> Void)? { get set }
+    var updateBestsellerItem: ((IndexPath) -> Void)? { get set }
+    
+    // Inputs
+    func selectCategory(at indexPath: IndexPath)
+    func selectItem(at indexPath: IndexPath)
+    func favouriteButtonTapped(at indexPath: IndexPath)
+    func filtersButtonTapped()
+    func cartButtonTapped()
+}
+
+final class HomeViewModel: HomeViewModelProtocol {
     private var networkManager: NetworkManager
     private var coordinator: Coordinator
     
-    let sections = HomeScreenSection.allCases
-    let categories = Category.allCases
-    
+    // Outputs
+    var sections = HomeScreenSection.allCases
+    var categories = Category.allCases
     var hotSalesItems = [HotSaleItem]()
     var bestSellersItems = [BestSellerItem]()
     
     var updateCollectionView: () -> Void = {}
-    var updateCategoryItem: (([IndexPath]) -> Void)?
+    var updateCategoryItems: (([IndexPath]) -> Void)?
     var updateBestsellerItem: ((IndexPath) -> Void)?
     
     var indexOfSelectedCategory: IndexPath = IndexPath(item: 0, section: 0) {
         didSet {
-            updateCategoryItem?([oldValue, indexOfSelectedCategory])
+            updateCategoryItems?([oldValue, indexOfSelectedCategory])
         }
     }
     
@@ -49,7 +53,7 @@ final class HomeViewModel {
         requestData()
     }
     
-    func requestData() {
+    private func requestData() {
         networkManager.requestHomeScreenData { result in
             switch result {
 
@@ -63,22 +67,25 @@ final class HomeViewModel {
         }
     }
     
-    func changeFavoriteStatus(forItem item: BestSellerItem) {
-        if let index = bestSellersItems.firstIndex(where: {$0.id == item.id}) {
-            bestSellersItems[index].isFavorites.toggle()
-            updateBestsellerItem?(IndexPath(item: index, section: 3))
-        }
+    // Inputs
+    func selectCategory(at indexPath: IndexPath) {
+        indexOfSelectedCategory = indexPath
     }
     
-    func showDetails() {
+    func selectItem(at indexPath: IndexPath) {
         coordinator.showDetails()
     }
     
-    func showFilters() {
+    func favouriteButtonTapped(at indexPath: IndexPath) {
+        bestSellersItems[indexPath.item].isFavorites.toggle()
+        updateBestsellerItem?(indexPath)
+    }
+    
+    func filtersButtonTapped() {
         coordinator.showFilters()
     }
     
-    func showCart() {
+    func cartButtonTapped() {
         coordinator.showCart()
     }
     

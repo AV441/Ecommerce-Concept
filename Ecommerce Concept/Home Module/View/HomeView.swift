@@ -23,26 +23,13 @@ final class HomeView: UIView {
     lazy var profileButton = makeButton(title: nil,
                                    image: UIImage(named: "icProfile"))
     
-    var bottomView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "Midnight")
-        return view
-    }()
-
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor(named: "Background")
         
-//        addSubview(bottomView)
         addSubview(collectionView)
         addSubview(tabView)
 
-//        bottomView.snp.makeConstraints { make in
-//            make.leading.trailing.bottom.equalToSuperview()
-//            make.height.equalTo(30)
-//        }
-        
         tabView.snp.makeConstraints { make in
             make.height.equalTo(72)
             make.leading.trailing.bottom.equalToSuperview()

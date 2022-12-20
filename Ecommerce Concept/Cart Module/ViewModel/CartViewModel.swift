@@ -7,17 +7,19 @@
 
 import Foundation
 
-//protocol CartViewModelProtocol {
-//    var basketItems: Observable<[BasketItem]> { get set }
-//    var totalPrice: Observable<Int> { get set }
-//    var deliveryPrice: Observable<String> { get set }
-//
-//    func addOneItem(withID id: Int)
-//    func removeOneItem(withID id: Int)
-//    func removeAllItems(withID id: Int)
-//    func backToPreviousScreen()
-//    func checkoutOrder()
-// }
+protocol CartViewModelProtocol {
+    // Outputs
+    var basketItems: Observable<[BasketItem]> { get }
+    var totalPrice: Observable<Int> { get }
+    var deliveryPrice: Observable<String> { get }
+
+    // Inputs
+    func addOneItem(withID id: Int)
+    func removeOneItem(withID id: Int)
+    func removeAllItems(withID id: Int)
+    func backToPreviousScreen()
+    func checkoutOrder()
+ }
 
 final class CartViewModel {
     var basketItems: Observable<[BasketItem]> = Observable([])
@@ -32,7 +34,7 @@ final class CartViewModel {
         self.networkManager = networkManager
         requestData()
     }
-    
+
     private func requestData() {
         networkManager.requestCartScreenData { [unowned self] result in
             switch result {
@@ -83,13 +85,16 @@ final class CartViewModel {
     }
     
     func backToPreviousScreen() {
-        coordinator.backToHome()
+        coordinator.popViewController()
     }
     
     func checkoutOrder() {
         // networkManager.postOrder()
         NotificationCenter.default.post(name: NSNotification.Name("clearCart"), object: nil)
-        coordinator.backToHome()
+        coordinator.popViewController()
     }
     
 }
+
+
+

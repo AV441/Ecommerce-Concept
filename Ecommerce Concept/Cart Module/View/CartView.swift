@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 final class CartView: UIView {
-    
     var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "My Cart"

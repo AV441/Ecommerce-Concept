@@ -39,12 +39,12 @@ extension HomeView {
                 
             case .selectCategory:
                 
-                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(71),
+                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(70),
                                                       heightDimension: .absolute(93))
                 
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(71),
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(70),
                                                        heightDimension: .absolute(93))
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,

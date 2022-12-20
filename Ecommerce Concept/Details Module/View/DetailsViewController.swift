@@ -8,23 +8,31 @@
 import UIKit
 
 final class DetailsViewController: UIViewController {
-    
-    public var viewModel: DetailsViewModel!
+    private var viewModel: DetailsViewModelProtocol
     private var detailsView: DetailsView!
     
-    let cartButton = UIButton(image: UIImage(named: "cart"))
+    private lazy var badge = makeBadgeLabel()
     
-    var badgeCount: Int = 0
-    lazy var badge = badgeLabel(withCount: 0)
-    let badgeSize: CGFloat = 20
-    let badgeTag = 9830384
+    private lazy var cartButton: UIButton = {
+        let button = UIButton(image: UIImage(named: "cart"))
+        button.addTarget(self, action: #selector(didTapCartButton), for: .touchUpInside)
+        return button
+    }()
+    
+    init(viewModel: DetailsViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureView()
         bindViewModel()
-        NotificationCenter.default.addObserver(self, selector: #selector(removeBadge), name: NSNotification.Name(rawValue: "clearCart"), object: nil)
     }
     
     private func configureNavigationBar() {
@@ -35,12 +43,8 @@ final class DetailsViewController: UIViewController {
                                                 target: self,
                                                 action: #selector(didTapBackButton))
         
-        let rightBarButtonItem = UIBarButtonItem(image: nil,
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: nil)
+        let rightBarButtonItem = UIBarButtonItem()
         rightBarButtonItem.customView = cartButton
-        cartButton.addTarget(self, action: #selector(didTapCartButton), for: .touchUpInside)
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -62,41 +66,78 @@ final class DetailsViewController: UIViewController {
     }
     
     private func bindViewModel() {
+        
         viewModel.updateView = { [unowned self] in
             guard let details = self.viewModel.detailsData else { return }
             
-            detailsView.titleLabel.text = details.title
-            detailsView.likeButton.isSelected = details.isFavorites
-            detailsView.ratingView.rating = details.rating
-            detailsView.cpuLabel.text = details.cpu
-            detailsView.cameraLabel.text = details.camera
-            detailsView.sdLabel.text = details.sd
-            detailsView.ssdLabel.text = details.ssd
-            detailsView.priceLabel.text = "$" + details.price.formattedWithSeparator
-           
-            detailsView.collectionView.reloadData()
+            self.detailsView.titleLabel.text = details.title
+            self.detailsView.likeButton.isSelected = details.isFavorites
+            self.detailsView.ratingView.rating = details.rating
+            self.detailsView.cpuLabel.text = details.cpu
+            self.detailsView.cameraLabel.text = details.camera
+            self.detailsView.sdLabel.text = details.sd
+            self.detailsView.ssdLabel.text = details.ssd
+            self.detailsView.priceLabel.text = "$" + details.price.formattedWithSeparator
             
-            detailsView.createColorButtons(colors: details.color)
-            detailsView.createCapacityButtons(capacityOptions: details.capacity)
+            self.detailsView.createColorButtons(colors: details.color)
+            self.detailsView.createCapacityButtons(capacityOptions: details.capacity)
+           
+            self.detailsView.collectionView.reloadData()
         }
         
-        viewModel.updateCartBadge = { [unowned self] in
-            badgeCount += 1
-            badge.text = badgeCount.description
-            badge.isHidden = false
+        viewModel.selectedColor.bind { [unowned self] color in
+            for button in detailsView.colorButtons {
+                if button.tag == viewModel.detailsData?.color.firstIndex(of: color) {
+                    button.isSelected = true
+                } else {
+                    button.isSelected = false
+                }
+            }
+        }
+        
+        viewModel.selectedCapacity.bind { [unowned self] capacity in
+            for button in detailsView.capacityButtons {
+                if button.tag == viewModel.detailsData?.capacity.firstIndex(of: capacity) {
+                    button.isSelected = true
+                } else {
+                    button.isSelected = false
+                }
+            }
+        }
+        
+        viewModel.selectedSection.bind { [unowned self] section in
+            for button in detailsView.sectionButtons {
+                if button.tag == DetailsSection.allCases.firstIndex(of: section) {
+                    button.setSelected()
+                } else {
+                    button.setNormal()
+                }
+            }
+        }
+        
+        viewModel.isFavoutite.bind { [unowned self] isFavourite in
+            self.detailsView.likeButton.isSelected = isFavourite
+        }
+        
+        viewModel.badgeCount.bind { [unowned self] value in
+            if value != 0 {
+                self.badge.text = value.description
+                self.badge.isHidden = false
+            } else {
+                self.badge.isHidden = true
+            }
         }
     }
-    
-    func badgeLabel(withCount count: Int) -> UILabel {
-        let badge = UILabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
-        badge.tag = badgeTag
-        badge.layer.cornerRadius = badge.bounds.size.height / 2
-        badge.textAlignment = .center
+
+    private func makeBadgeLabel() -> UILabel {
+        let badgeSize: CGFloat = 20
+        let badge = UILabel()
+        badge.layer.cornerRadius = badgeSize / 2
         badge.layer.masksToBounds = true
-        badge.textColor = .white
-        badge.font = badge.font.withSize(12)
         badge.backgroundColor = .systemRed
-        badge.text = String(count)
+        badge.font = badge.font.withSize(12)
+        badge.textColor = .white
+        badge.textAlignment = .center
         badge.isHidden = true
         
         cartButton.addSubview(badge)
@@ -111,20 +152,13 @@ final class DetailsViewController: UIViewController {
     }
     
     @objc
-    private func removeBadge() {
-        badgeCount = 0
-        badge.text = badgeCount.description
-        badge.isHidden = true
-    }
-    
-    @objc
     private func didTapBackButton() {
-        viewModel.coordinator.backToHome()
+        viewModel.backButtonTapped()
     }
     
     @objc
     private func didTapCartButton() {
-        viewModel.coordinator.showCart()
+        viewModel.cartButtonTapped()
     }
     
 }
@@ -147,8 +181,24 @@ extension DetailsViewController: UICollectionViewDataSource {
 
 extension DetailsViewController: DetailViewDelegate {
     
-    func didTapAddToCartButton() {
-        viewModel.addToCart(item: viewModel.detailsData)
+    func likeButtonTapped() {
+        viewModel.favouriteButtonTapped()
+    }
+    
+    func capacityButtonTapped(tag: Int) {
+        viewModel.selectCapacity(for: tag)
+    }
+    
+    func colorButtonTapped(tag: Int) {
+        viewModel.selectColor(for: tag)
+    }
+    
+    func sectionButtonTapped(tag: Int) {
+        viewModel.selectSection(for: tag)
+    }
+    
+    func addToCartButtonTapped() {
+        viewModel.addToCart()
     }
     
 }

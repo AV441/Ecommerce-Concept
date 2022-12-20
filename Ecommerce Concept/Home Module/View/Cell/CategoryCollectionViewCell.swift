@@ -9,22 +9,23 @@ import UIKit
 import SnapKit
 
 final class CategoryCollectionViewCell: UICollectionViewCell {
-    static let id = "CategoryCollectionViewCell"
+    static let id = String(describing: CategoryCollectionViewCell.self)
     
-    var roundedView: UIView = {
+    private var roundedView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 35
         return view
     }()
     
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    var label: UILabel = {
+    private var label: UILabel = {
         let label = UILabel()
         label.text = "Phones"
         label.font = .systemFont(ofSize: 12, weight: .medium)
@@ -34,35 +35,34 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(roundedView)
-        
-        roundedView.snp.makeConstraints { make in
-            make.width.height.equalTo(71)
-            make.top.leading.trailing.equalToSuperview()
-        }
-        
-        roundedView.addSubview(imageView)
-        
-        imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-            make.center.equalToSuperview()
-        }
-        
-        addSubview(label)
-        
-        label.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        
+        makeSubview()
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        roundedView.layer.cornerRadius = roundedView.frame.height/2
+    private func makeSubview() {
+        addSubview(roundedView)
+        roundedView.addSubview(imageView)
+        addSubview(label)
+    }
+    
+    private func makeConstraints() {
+        roundedView.snp.makeConstraints { make in
+            make.width.height.equalTo(70)
+            make.top.leading.trailing.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.width.height.equalTo(32)
+            make.center.equalToSuperview()
+        }
+        
+        label.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     func configure(with categoryName: String, isSelected: Bool) {

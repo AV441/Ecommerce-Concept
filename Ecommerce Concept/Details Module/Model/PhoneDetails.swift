@@ -12,7 +12,7 @@ struct PhoneDetails: Decodable {
     let capacity, color: [String]
     let id: String
     let images: [String]
-    let isFavorites: Bool
+    var isFavorites: Bool
     let price: Int
     let rating: Double
 

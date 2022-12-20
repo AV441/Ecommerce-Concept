@@ -9,14 +9,13 @@ import UIKit
 import SDWebImage
 
 protocol BestSellerCellDelegate: AnyObject {
-    func likeButtonTapped(on item: BestSellerItem)
+    func didTapLikeButton(sender: UICollectionViewCell)
 }
 
 final class BestSellerCollectionViewCell: UICollectionViewCell {
-    static let id = "BestSellerCollectionViewCell"
+    static let id = String(describing: BestSellerCollectionViewCell.self)
     
     weak var delegate: BestSellerCellDelegate?
-    private var item: BestSellerItem?
     
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -111,11 +110,9 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
                                   y: salePriceLabel.bottom + 5,
                                   width: contentView.width - 21,
                                   height: 13)
-        
     }
 
     func configure(withItem item: BestSellerItem) {
-        self.item = item
         titleLabel.text = item.title
         salePriceLabel.text = "$" + item.priceWithoutDiscount.description
         totalPriceLabel.text = "$" + item.discountPrice.description
@@ -134,9 +131,8 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     }
     
     @objc
-    func didTapLikeButton() {
-        if let item = item {
-            delegate?.likeButtonTapped(on: item)
-        }
+    private func didTapLikeButton() {
+            delegate?.didTapLikeButton(sender: self)
     }
+    
 }

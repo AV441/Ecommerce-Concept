@@ -7,26 +7,58 @@
 
 import Foundation
 
-final class DetailsViewModel {
+protocol DetailsViewModelProtocol {
+    // Outputs
+    var detailsData: PhoneDetails? { get }
+    var badgeCount: Observable<Int> { get }
+    var selectedSection: Observable<DetailsSection> { get }
+    var selectedColor: Observable<String> { get }
+    var selectedCapacity: Observable<String> { get }
+    var isFavoutite: Observable<Bool> { get }
     
-    var coordinator: Coordinator!
-    var networkManager: NetworkManager!
+    var updateView: () -> Void { get set }
+    
+    // Inputs
+    func addToCart()
+    func selectColor(for index: Int)
+    func selectCapacity(for index: Int)
+    func selectSection(for index: Int)
+    func favouriteButtonTapped()
+    func backButtonTapped()
+    func cartButtonTapped()
+}
+
+final class DetailsViewModel: DetailsViewModelProtocol {
+    private var coordinator: Coordinator
+    private var networkManager: NetworkManager
+    private let sections = DetailsSection.allCases
+    
+    // Outputs
     var detailsData: PhoneDetails?
+    var badgeCount: Observable<Int> = Observable(0)
+    var selectedSection: Observable<DetailsSection> = Observable(.shop)
+    var selectedColor: Observable<String> = Observable("")
+    var selectedCapacity: Observable<String> = Observable("")
+    var isFavoutite: Observable<Bool> = Observable(false)
+    
     var updateView: () -> Void = {}
-    var updateCartBadge: () -> Void = {}
 
     init(coordinator: Coordinator, networkManager: NetworkManager) {
         self.coordinator = coordinator
         self.networkManager = networkManager
         requestData()
+        NotificationCenter.default.addObserver(self, selector: #selector(removeBadge), name: NSNotification.Name(rawValue: "clearCart"), object: nil)
     }
     
-    func requestData() {
+    private func requestData() {
         networkManager.requestDetailsScreenData { [unowned self] result in
             switch result {
                 
             case .success(let data):
                 self.detailsData = data
+                self.selectedColor.value = data.color[0]
+                self.selectedColor.value = data.capacity[0]
+                self.isFavoutite.value = data.isFavorites
                 self.updateView()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -34,8 +66,43 @@ final class DetailsViewModel {
         }
     }
     
-    func addToCart(item: PhoneDetails?) {
-        // do something with chosen item
-        updateCartBadge()
+    @objc
+    private func removeBadge() {
+        badgeCount.value = 0
+    }
+    
+    // Inputs
+    func addToCart() {
+        badgeCount.value += 1
+        // TODO: send item details(model, selectedColor, selectedCapacity) to server
+    }
+    
+    func backButtonTapped() {
+        coordinator.popViewController()
+    }
+    
+    func cartButtonTapped() {
+        coordinator.showCart()
+    }
+    
+    func selectSection(for index: Int) {
+        selectedSection.value = sections[index]
+    }
+    
+    func selectColor(for index: Int) {
+        if let detailsData = detailsData {
+            selectedColor.value = detailsData.color[index]
+        }
+    }
+    
+    func selectCapacity(for index: Int) {
+        if let detailsData = detailsData {
+            selectedCapacity.value = detailsData.capacity[index]
+        }
+    }
+ 
+    func favouriteButtonTapped() {
+        isFavoutite.value.toggle()
+        // TODO: send changes to server
     }
 }

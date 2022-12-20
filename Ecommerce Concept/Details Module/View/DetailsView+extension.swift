@@ -10,7 +10,7 @@ import SnapKit
 import Cosmos
 
 extension DetailsView {
-    
+
     func makeCollectionView() -> UICollectionView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makelayout())
         collectionView.backgroundColor = UIColor(named: "Background")
@@ -114,10 +114,11 @@ extension DetailsView {
     }
     
     func makeSectionButtonsStack() -> UIStackView {
-        createSectionButtons(sections: ["Shop", "Details", "Features"])
+        createSectionButtons(sections: DetailsSection.allCases)
         let HStack = UIStackView(arrangedSubviews: sectionButtons,
-                                               axis: .horizontal,
-                                               distribution: .fillEqually)
+                                 axis: .horizontal,
+                                 distribution: .fillEqually)
+        
         containerView.addSubview(HStack)
 
         HStack.snp.makeConstraints { make in
@@ -128,10 +129,13 @@ extension DetailsView {
         return HStack
     }
     
-    func createSectionButtons(sections: [String]) {
-        for sectionTitle in sections {
-            let button = SectionButton(title: sectionTitle)
+    func createSectionButtons(sections: [DetailsSection]) {
+        var tag = 0
+        for section in sections {
+            let button = SectionButton(title: section.rawValue)
             button.addTarget(self, action: #selector(didTapSectionButton), for: .touchUpInside)
+            button.tag = tag
+            tag += 1
             sectionButtons.append(button)
         }
         sectionButtons.first?.setSelected()
@@ -194,7 +198,9 @@ extension DetailsView {
         label.textColor = .black
         label.backgroundColor = .clear
         label.text = "Select color and capacity"
+        
         containerView.addSubview(label)
+        
         label.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(width*0.07)
             make.trailing.equalToSuperview()
@@ -207,7 +213,9 @@ extension DetailsView {
     func makeColorButtonsScrollView() -> UIScrollView {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
+        
         containerView.addSubview(scrollView)
+        
         scrollView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(width*0.08)
             make.top.equalTo(selectColorAndCapacityLabel.snp.bottom).offset(height*0.54*0.03)
@@ -218,11 +226,14 @@ extension DetailsView {
     }
     
     func createColorButtons(colors: [String]) {
+        var tag = 0
         for color in colors {
             let button = UIButton()
             button.backgroundColor = UIColor.hexColor(hex: color)
             button.layer.cornerRadius = 18
             button.setImage(UIImage(named: "icMark"), for: .selected)
+            button.tag = tag
+            tag += 1
             
             button.snp.makeConstraints { make in
                 make.width.height.equalTo(36)
@@ -231,6 +242,7 @@ extension DetailsView {
             button.addTarget(self, action: #selector(didTapColorButton(sender:)), for: .touchUpInside)
             colorButtons.append(button)
         }
+        
         colorButtons.first?.isSelected = true
         let colorButtonHStack = UIStackView(arrangedSubviews: colorButtons,
                                             axis: .horizontal,
@@ -252,7 +264,6 @@ extension DetailsView {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(selectColorAndCapacityLabel.snp.bottom).offset(height*0.54*0.04)
             make.trailing.equalToSuperview().inset(width*0.15)
-//            make.height.equalTo(30)
             make.bottom.equalTo(addToCartStack.snp.top).offset(height*0.54*0.07)
             make.width.equalToSuperview().multipliedBy(0.4)
         }
@@ -260,6 +271,7 @@ extension DetailsView {
     }
     
     func createCapacityButtons(capacityOptions: [String]) {
+        var tag = 0
         capacityOptions.forEach { capacity in
             let button = UIButton()
             button.layer.cornerRadius = 10
@@ -269,6 +281,8 @@ extension DetailsView {
             button.setTitleColor(.white, for: .selected)
             button.setTitleColor(.gray, for: .normal)
             button.setBackgroundImage(UIImage(named: "capacityButton"), for: .selected)
+            button.tag = tag
+            tag += 1
             
             button.snp.makeConstraints { make in
                 make.width.equalTo(71)
@@ -278,8 +292,8 @@ extension DetailsView {
             button.addTarget(self, action: #selector(didTapCapacityButton(sender:)), for: .touchUpInside)
             capacityButtons.append(button)
         }
-        capacityButtons.first?.isSelected = true
         
+        capacityButtons.first?.isSelected = true
         let capacityButtonHStack = UIStackView(arrangedSubviews: capacityButtons,
                                                axis: .horizontal,
                                                distribution: .equalSpacing,
@@ -332,45 +346,10 @@ extension DetailsView {
         
         view.snp.makeConstraints { make in
             make.top.equalTo(colorButtonsScrollView.snp.bottom).offset(height*0.54*0.06)
-//            make.height.equalToSuperview().multipliedBy(0.12)
             make.bottom.equalToSuperview().inset(height*0.54*0.08)
             make.leading.trailing.equalToSuperview().inset(width*0.07)
         }
         return view
-    }
-    
-    @objc
-    func didTapSectionButton(sender: SectionButton) {
-        for button in sectionButtons {
-            button.setNormal()
-        }
-        sender.setSelected()
-    }
-    
-    @objc
-    func didTapColorButton(sender: SectionButton) {
-        for button in colorButtons {
-            button.isSelected = false
-        }
-        sender.isSelected = true
-    }
-    
-    @objc
-    func didTapCapacityButton(sender: UIButton) {
-        for button in capacityButtons {
-            button.isSelected = false
-        }
-        sender.isSelected = true
-    }
-    
-    @objc
-    func didTapLikeButton(sender: UIButton) {
-        sender.isSelected.toggle()
-    }
-    
-    @objc
-    func didTapAddToCart() {
-        delegate?.didTapAddToCartButton()
     }
     
 }

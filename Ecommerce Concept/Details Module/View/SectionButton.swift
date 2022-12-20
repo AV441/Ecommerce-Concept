@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// This class inheriteted from UIButton creates and manages section picker buttons for Details Screen
 final class SectionButton: UIButton {
     
     convenience init(title: String) {
@@ -25,11 +26,11 @@ final class SectionButton: UIButton {
         return view
     }()
     
+    /// sets isSelected state to "true" and changes visual representation
     func setSelected() {
         self.isSelected = true
         self.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         self.addSubview(selectorView)
-        
         
         selectorView.snp.makeConstraints { make in
             make.top.equalTo(self.snp.bottom)
@@ -38,6 +39,7 @@ final class SectionButton: UIButton {
         }
     }
     
+    /// sets isSelected state to "false" and changes visual representation
     func setNormal() {
         self.isSelected = false
         self.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)

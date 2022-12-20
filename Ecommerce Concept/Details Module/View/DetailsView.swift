@@ -9,13 +9,17 @@ import UIKit
 import SnapKit
 import Cosmos
 
-protocol DetailViewDelegate {
-    func didTapAddToCartButton()
+protocol DetailViewDelegate: AnyObject {
+    func addToCartButtonTapped()
+    func likeButtonTapped()
+    func capacityButtonTapped(tag: Int)
+    func colorButtonTapped(tag: Int)
+    func sectionButtonTapped(tag: Int)
 }
 
 final class DetailsView: UIView {
     
-    var delegate: DetailViewDelegate?
+    weak var delegate: DetailViewDelegate?
     
     lazy var collectionView = makeCollectionView()
     lazy var containerView = makeContainerView()
@@ -58,6 +62,31 @@ final class DetailsView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc
+    func didTapSectionButton(sender: SectionButton) {
+        delegate?.sectionButtonTapped(tag: sender.tag)
+    }
+    
+    @objc
+    func didTapColorButton(sender: UIButton) {
+        delegate?.colorButtonTapped(tag: sender.tag)
+    }
+    
+    @objc
+    func didTapCapacityButton(sender: UIButton) {
+        delegate?.capacityButtonTapped(tag: sender.tag)
+    }
+    
+    @objc
+    func didTapLikeButton(sender: UIButton) {
+        delegate?.likeButtonTapped()
+    }
+    
+    @objc
+    func didTapAddToCart() {
+        delegate?.addToCartButtonTapped()
     }
     
 }

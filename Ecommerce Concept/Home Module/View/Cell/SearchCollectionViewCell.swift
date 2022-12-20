@@ -8,9 +8,9 @@
 import UIKit
 
 final class SearchCollectionViewCell: UICollectionViewCell {
-    static let id = "SearchCollectionViewCell"
+    static let id = String(describing: SearchCollectionViewCell.self)
     
-    var searchBar: UISearchBar = {
+    private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.setImage(UIImage(named: "icLoupe"), for: .search, state: .normal)
         searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
@@ -20,7 +20,7 @@ final class SearchCollectionViewCell: UICollectionViewCell {
         return searchBar
     }()
     
-    var button: UIButton = {
+    private var button: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "icQR"), for: .normal)
         button.backgroundColor = UIColor(named: "AccentColor")
@@ -40,10 +40,16 @@ final class SearchCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        searchBar.frame = CGRect(x: contentView.left, y: 0, width: contentView.width - 41, height: 34)
+        searchBar.frame = CGRect(x: contentView.left,
+                                 y: 0,
+                                 width: contentView.width - 41,
+                                 height: 34)
         searchBar.layer.cornerRadius = searchBar.frame.height/2
         
-        button.frame = CGRect(x: searchBar.right + 7, y: 0, width: 34, height: 34)
+        button.frame = CGRect(x: searchBar.right + 7,
+                              y: 0,
+                              width: 34,
+                              height: 34)
         button.layer.cornerRadius = button.frame.height/2
     }
     

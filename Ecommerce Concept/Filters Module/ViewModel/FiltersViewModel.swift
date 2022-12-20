@@ -8,6 +8,7 @@
 import Foundation
 
 protocol FiltersViewModelProtocol {
+    // Outputs
     var brands: [String] { get }
     var selectedBrand: String { get }
     var minPrice: Double { get }
@@ -16,6 +17,7 @@ protocol FiltersViewModelProtocol {
     var updateBrand: () -> Void { get set }
     var updatePrice: () -> Void { get set }
     
+    // Inputs
     func cancelFilters()
     func applyFilters()
     func selectBrand(forIndex index: Int)
@@ -24,15 +26,13 @@ protocol FiltersViewModelProtocol {
 }
 
 final class FiltersViewModel: FiltersViewModelProtocol {
-    var minPrice: Double = UserDefaults.standard.value(forKey: "minPrice") as? Double ?? 0 {
-        didSet {
-            UserDefaults.standard.set(minPrice, forKey: "minPrice")
-        }
-    }
-    var maxPrice: Double = UserDefaults.standard.value(forKey: "maxPrice") as? Double ?? 10000 {
-        didSet {
-            UserDefaults.standard.set(maxPrice, forKey: "maxPrice")
-        }
+    private var coordinator: Coordinator
+    
+    private let filters = Filter()
+    
+    // Outputs
+    var brands: [String] {
+        filters.brands
     }
     
     var selectedBrand: String = UserDefaults.standard.value(forKey: "selectedBrand") as? String ?? "All" {
@@ -41,27 +41,33 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         }
     }
     
+    var minPrice: Double = UserDefaults.standard.value(forKey: "minPrice") as? Double ?? 0 {
+        didSet {
+            UserDefaults.standard.set(minPrice, forKey: "minPrice")
+        }
+    }
+    
+    var maxPrice: Double = UserDefaults.standard.value(forKey: "maxPrice") as? Double ?? 10000 {
+        didSet {
+            UserDefaults.standard.set(maxPrice, forKey: "maxPrice")
+        }
+    }
+    
     var updatePrice: () -> Void = {}
     var updateBrand: () -> Void = {}
-    
-    private let filters = Filter()
-    
-    var brands: [String] {
-        filters.brands
-    }
-
-    private var coordinator: Coordinator
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
     }
     
+    // Inputs
     func cancelFilters() {
-        coordinator.closeFilters()
+        coordinator.dismissViewController()
     }
     
     func applyFilters() {
-        coordinator.closeFilters()
+        // apply filters
+        coordinator.dismissViewController()
     }
     
     func selectBrand(forIndex index: Int) {

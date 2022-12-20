@@ -8,27 +8,25 @@
 import UIKit
 
 protocol Coordinator {
-    var navigationController : UINavigationController { get set }
-    
     func start()
     func showFilters()
-    func closeFilters()
     func showDetails()
-    func backToHome()
     func showCart()
+    func popViewController()
+    func dismissViewController()
 }
 
 final class AppCoordinator: Coordinator {
-    var navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    private let networkManager = NetworkManager.shared
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        let viewController = HomeViewController()
-        viewController.viewModel = HomeViewModel(coordinator: self,
-                                                 networkManager: NetworkManager.shared)
+        let viewModel = HomeViewModel(coordinator: self, networkManager: networkManager)
+        let viewController = HomeViewController(viewModel: viewModel)
         navigationController.viewControllers = [viewController]
     }
     
@@ -38,27 +36,25 @@ final class AppCoordinator: Coordinator {
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true)
     }
-    
-    func closeFilters() {
-        navigationController.dismiss(animated: true)
-    }
-    
+        
     func showDetails() {
-        let viewController = DetailsViewController()
-        viewController.viewModel = DetailsViewModel(coordinator: self,
-                                                    networkManager: NetworkManager.shared)
+        let viewModel = DetailsViewModel(coordinator: self, networkManager: networkManager)
+        let viewController = DetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
-    }
-    
-    func backToHome() {
-        navigationController.popViewController(animated: true)
     }
     
     func showCart() {
-        let networkManager = NetworkManager.shared
         let viewModel = CartViewModel(coordinator: self, networkManager: networkManager)
         let viewController = CartViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func popViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func dismissViewController() {
+        navigationController.dismiss(animated: true)
     }
     
 }
