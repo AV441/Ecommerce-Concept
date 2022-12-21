@@ -70,7 +70,6 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     @objc
     private func removeBadge() {
         badgeCount.value = 0
-        UserDefaults.standard.set(0, forKey: "badgeValue")
     }
     
     // Inputs

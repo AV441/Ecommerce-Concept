@@ -32,6 +32,7 @@
 		754F764129523B2100F8AB33 /* Mark Pro Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 754F764029523B2100F8AB33 /* Mark Pro Medium.ttf */; };
 		754F764529523B4800F8AB33 /* Mark Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 754F764429523B4800F8AB33 /* Mark Pro.ttf */; };
 		754F764729523B5600F8AB33 /* Mark Pro Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 754F764629523B5600F8AB33 /* Mark Pro Bold.ttf */; };
+		754F764A2952D7AD00F8AB33 /* Mark Pro Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 754F76492952D7AD00F8AB33 /* Mark Pro Heavy.ttf */; };
 		75A1DD78294373E0009A5E63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A1DD77294373E0009A5E63 /* AppDelegate.swift */; };
 		75A1DD7C294373E0009A5E63 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A1DD7B294373E0009A5E63 /* HomeViewController.swift */; };
 		75A1DD81294373E2009A5E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A1DD80294373E2009A5E63 /* Assets.xcassets */; };
@@ -84,6 +85,7 @@
 		754F764029523B2100F8AB33 /* Mark Pro Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mark Pro Medium.ttf"; sourceTree = "<group>"; };
 		754F764429523B4800F8AB33 /* Mark Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mark Pro.ttf"; sourceTree = "<group>"; };
 		754F764629523B5600F8AB33 /* Mark Pro Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mark Pro Bold.ttf"; sourceTree = "<group>"; };
+		754F76492952D7AD00F8AB33 /* Mark Pro Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mark Pro Heavy.ttf"; sourceTree = "<group>"; };
 		75A1DD74294373E0009A5E63 /* Ecommerce Concept.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ecommerce Concept.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75A1DD77294373E0009A5E63 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75A1DD7B294373E0009A5E63 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -206,8 +208,9 @@
 			isa = PBXGroup;
 			children = (
 				754F764429523B4800F8AB33 /* Mark Pro.ttf */,
-				754F764629523B5600F8AB33 /* Mark Pro Bold.ttf */,
 				754F764029523B2100F8AB33 /* Mark Pro Medium.ttf */,
+				754F764629523B5600F8AB33 /* Mark Pro Bold.ttf */,
+				754F76492952D7AD00F8AB33 /* Mark Pro Heavy.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				754F764729523B5600F8AB33 /* Mark Pro Bold.ttf in Resources */,
 				754F764529523B4800F8AB33 /* Mark Pro.ttf in Resources */,
 				75A1DD84294373E2009A5E63 /* LaunchScreen.storyboard in Resources */,
+				754F764A2952D7AD00F8AB33 /* Mark Pro Heavy.ttf in Resources */,
 				754F764129523B2100F8AB33 /* Mark Pro Medium.ttf in Resources */,
 				75A1DD81294373E2009A5E63 /* Assets.xcassets in Resources */,
 			);

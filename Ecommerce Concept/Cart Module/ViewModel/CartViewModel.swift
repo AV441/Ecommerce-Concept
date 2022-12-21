@@ -91,6 +91,7 @@ final class CartViewModel {
     func checkoutOrder() {
         // networkManager.postOrder()
         NotificationCenter.default.post(name: NSNotification.Name("clearCart"), object: nil)
+        UserDefaults.standard.set(0, forKey: "badgeValue")
         coordinator.backToMain()
     }
     
