@@ -66,7 +66,7 @@ extension DetailsView {
     
     func makeTitleLabel() -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 24)
         containerView.addSubview(label)
         
         label.snp.makeConstraints { make in
@@ -143,7 +143,7 @@ extension DetailsView {
     
     func makeCharacteristicLabel() -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = UIFont(name: "MarkPro", size: 11)
         label.textColor = .gray
         return label
     }
@@ -194,7 +194,7 @@ extension DetailsView {
     
     func makeSelectColorAndCapacityLabel() -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 16)
         label.textColor = .black
         label.backgroundColor = .clear
         label.text = "Select color and capacity"
@@ -277,7 +277,7 @@ extension DetailsView {
             button.layer.cornerRadius = 10
             button.setTitle("\(capacity) GB", for: .selected)
             button.setTitle("\(capacity) gb", for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 13, weight: .bold)
+            button.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 13)
             button.setTitleColor(.white, for: .selected)
             button.setTitleColor(.gray, for: .normal)
             button.setBackgroundImage(UIImage(named: "capacityButton"), for: .selected)
@@ -308,7 +308,7 @@ extension DetailsView {
     
     func makePriceLabel() -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 20)
         label.textColor = .white
         label.backgroundColor = .clear
         return label
@@ -316,7 +316,7 @@ extension DetailsView {
     
     func makeAddToCartLabel() -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 20)
         label.textColor = .white
         label.backgroundColor = .clear
         label.text = "Add to Cart"

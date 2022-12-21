@@ -14,6 +14,8 @@ final class HomeView: UIView {
     
     lazy var tabView = makeTabView()
     
+    lazy var badge = makeBadgeLabel()
+    
     lazy var explorerButton = makeButton(title: " Explorer",
                                     image: UIImage(named: "icExplorer"))
     lazy var cartButton = makeButton(title: nil,

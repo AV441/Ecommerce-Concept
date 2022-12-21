@@ -14,6 +14,7 @@ protocol HomeViewModelProtocol {
     var hotSalesItems: [HotSaleItem] { get }
     var bestSellersItems: [BestSellerItem] { get }
     var indexOfSelectedCategory: IndexPath { get }
+    var badgeCount: Observable<Int> { get }
     
     var updateCollectionView: () -> Void { get set }
     var updateCategoryItems: ([IndexPath]) -> Void { get set }
@@ -25,6 +26,7 @@ protocol HomeViewModelProtocol {
     func favouriteButtonTapped(at indexPath: IndexPath)
     func filtersButtonTapped()
     func cartButtonTapped()
+    func buyNow()
 }
 
 final class HomeViewModel: HomeViewModelProtocol {
@@ -36,6 +38,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     var categories = ShopCategory.allCases
     var hotSalesItems = [HotSaleItem]()
     var bestSellersItems = [BestSellerItem]()
+    var badgeCount: Observable<Int> = Observable(UserDefaults.standard.value(forKey: "badgeValue") as? Int ?? 0)
     
     var updateCollectionView: () -> Void = {}
     var updateCategoryItems: ([IndexPath]) -> Void = { _ in }
@@ -51,6 +54,18 @@ final class HomeViewModel: HomeViewModelProtocol {
         self.coordinator = coordinator
         self.networkManager = networkManager
         requestData()
+        NotificationCenter.default.addObserver(self, selector: #selector(addBadge), name: NSNotification.Name(rawValue: "addToCart"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeBadge), name: NSNotification.Name(rawValue: "clearCart"), object: nil)
+    }
+    
+    @objc
+    private func addBadge() {
+        badgeCount.value = UserDefaults.standard.value(forKey: "badgeValue") as? Int ?? 0
+    }
+    
+    @objc
+    private func removeBadge() {
+        badgeCount.value = 0
     }
     
     private func requestData() {
@@ -86,6 +101,10 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     func cartButtonTapped() {
+        coordinator.showCart()
+    }
+    
+    func buyNow() {
         coordinator.showCart()
     }
     

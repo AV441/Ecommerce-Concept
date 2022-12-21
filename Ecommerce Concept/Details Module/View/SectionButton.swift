@@ -15,7 +15,7 @@ final class SectionButton: UIButton {
         self.setTitle(title, for: .normal)
         self.setTitleColor(.black, for: .selected)
         self.setTitleColor(.gray, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)
+        self.titleLabel?.font = UIFont(name: "MarkPro", size: 20)
     }
     
     private var selectorView: UIView = {
@@ -29,7 +29,7 @@ final class SectionButton: UIButton {
     /// sets isSelected state to "true" and changes visual representation
     func setSelected() {
         self.isSelected = true
-        self.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        self.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 20)
         self.addSubview(selectorView)
         
         selectorView.snp.makeConstraints { make in
@@ -42,7 +42,7 @@ final class SectionButton: UIButton {
     /// sets isSelected state to "false" and changes visual representation
     func setNormal() {
         self.isSelected = false
-        self.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)
+        self.titleLabel?.font = UIFont(name: "MarkPro", size: 20)
         self.selectorView.removeFromSuperview()
     }
     

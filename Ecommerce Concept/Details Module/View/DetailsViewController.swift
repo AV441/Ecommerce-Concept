@@ -119,7 +119,7 @@ final class DetailsViewController: UIViewController {
             self.detailsView.likeButton.isSelected = isFavourite
         }
         
-        viewModel.badgeCount.bind { [unowned self] value in
+        viewModel.badgeCount.bindAndFire { [unowned self] value in
             if value != 0 {
                 self.badge.text = value.description
                 self.badge.isHidden = false
@@ -138,7 +138,6 @@ final class DetailsViewController: UIViewController {
         badge.font = badge.font.withSize(12)
         badge.textColor = .white
         badge.textAlignment = .center
-        badge.isHidden = true
         
         cartButton.addSubview(badge)
 

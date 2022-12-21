@@ -14,6 +14,7 @@ protocol Coordinator {
     func showCart()
     func popViewController()
     func dismissViewController()
+    func backToMain()
 }
 
 final class AppCoordinator: Coordinator {
@@ -55,6 +56,10 @@ final class AppCoordinator: Coordinator {
     
     func dismissViewController() {
         navigationController.dismiss(animated: true)
+    }
+    
+    func backToMain() {
+        navigationController.popToRootViewController(animated: true)
     }
     
 }

@@ -35,7 +35,7 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     
     // Outputs
     var detailsData: PhoneDetails?
-    var badgeCount: Observable<Int> = Observable(0)
+    var badgeCount: Observable<Int> = Observable(UserDefaults.standard.value(forKey: "badgeValue") as? Int ?? 0)
     var selectedSection: Observable<DetailsSection> = Observable(.shop)
     var selectedColor: Observable<String> = Observable("")
     var selectedCapacity: Observable<String> = Observable("")
@@ -47,6 +47,7 @@ final class DetailsViewModel: DetailsViewModelProtocol {
         self.coordinator = coordinator
         self.networkManager = networkManager
         requestData()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(removeBadge), name: NSNotification.Name(rawValue: "clearCart"), object: nil)
     }
     
@@ -69,11 +70,14 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     @objc
     private func removeBadge() {
         badgeCount.value = 0
+        UserDefaults.standard.set(0, forKey: "badgeValue")
     }
     
     // Inputs
     func addToCart() {
         badgeCount.value += 1
+        UserDefaults.standard.set(badgeCount.value, forKey: "badgeValue")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "addToCart"), object: nil)
         // TODO: send item details(model, selectedColor, selectedCapacity) to server
     }
     

@@ -163,7 +163,29 @@ extension HomeView {
         button.setImage(image, for: .normal)
         button.setTitle(title, for: .normal)
         button.tintColor = .white
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 15)
         return button
     }
+    
+    func makeBadgeLabel() -> UILabel {
+        let badgeSize: CGFloat = 18
+        let badge = UILabel()
+        badge.layer.cornerRadius = badgeSize / 2
+        badge.layer.masksToBounds = true
+        badge.backgroundColor = .systemRed
+        badge.font = badge.font.withSize(12)
+        badge.textColor = .white
+        badge.textAlignment = .center
+        
+        cartButton.addSubview(badge)
+
+        badge.snp.makeConstraints { make in
+            make.centerX.equalTo(cartButton.snp.centerX).offset(10)
+            make.centerY.equalTo(cartButton.snp.centerY).offset(-10)
+            make.width.equalTo(badgeSize)
+            make.height.equalTo(badgeSize)
+        }
+        return badge
+    }
+    
 }

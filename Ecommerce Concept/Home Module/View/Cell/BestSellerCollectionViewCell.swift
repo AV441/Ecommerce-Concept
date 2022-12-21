@@ -19,7 +19,7 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont(name: "MarkPro", size: 10)
         label.textColor = .black
         label.text = "Samsung Galaxy s20 Ultra"
         return label
@@ -27,9 +27,8 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     
     private var salePriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 16)
         label.textColor = .black
-        label.text = "$1,000"
         label.textAlignment = .left
         label.layer.masksToBounds = true
         return label
@@ -37,9 +36,9 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
     
     private var totalPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 10, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 10)
         label.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
-        label.text = "$1,500"
+        label.textAlignment = .left
         return label
     }()
     
@@ -69,6 +68,7 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
         contentView.isUserInteractionEnabled = false
         
         makeSubviews()
+        makeConstraints()
     }
     
     private func makeSubviews() {
@@ -79,43 +79,55 @@ final class BestSellerCollectionViewCell: UICollectionViewCell {
         addSubview(salePriceLabel)
     }
     
+    private func makeConstraints() {
+        imageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(168)
+        }
+        
+        likeButton.snp.makeConstraints { make in
+            make.width.height.equalTo(25)
+            make.trailing.equalToSuperview().inset(13)
+            make.top.equalToSuperview().offset(11)
+        }
+        
+        salePriceLabel.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom)
+            make.bottom.equalTo(titleLabel.snp.top).offset(-5)
+            make.leading.equalToSuperview().offset(width*0.11)
+            make.width.equalTo(50)
+        }
+        
+        totalPriceLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(salePriceLabel.snp.bottom)
+            make.leading.equalTo(salePriceLabel.snp.trailing).offset(7)
+            make.trailing.equalToSuperview().inset(width*0.11)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(width*0.11)
+            make.height.equalToSuperview().multipliedBy(0.06)
+        }
+        
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = CGRect(x: contentView.left,
-                                 y: contentView.top,
-                                 width: contentView.width,
-                                 height: 168)
-        
-        likeButton.frame = CGRect(x: imageView.right - 37,
-                                  y: imageView.top + 10,
-                                  width: 25,
-                                  height: 25)
         likeButton.layer.cornerRadius = likeButton.height/2
-        
-        salePriceLabel.frame = CGRect(x: contentView.left + 21,
-                                      y: imageView.bottom + 2,
-                                      width: 60,
-                                      height: 20)
-        
-        totalPriceLabel.frame = CGRect(x: salePriceLabel.right + 7,
-                                       y: imageView.bottom + 2,
-                                       width: 50,
-                                       height: 13)
-        
-        titleLabel.frame = CGRect(x: contentView.left + 21,
-                                  y: salePriceLabel.bottom + 5,
-                                  width: contentView.width - 21,
-                                  height: 13)
     }
 
     func configure(withItem item: BestSellerItem) {
         titleLabel.text = item.title
         salePriceLabel.text = "$" + item.priceWithoutDiscount.description
-        totalPriceLabel.text = "$" + item.discountPrice.description
+        let attributeString = NSMutableAttributedString(string: "$" + item.discountPrice.description)
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                         value: 1,
+                                         range: NSRange(location: 0, length: attributeString.length))
+        totalPriceLabel.attributedText = attributeString
         
         if item.isFavorites == true {
             likeButton.setImage(UIImage(named: "icLikeFill"), for: .normal)

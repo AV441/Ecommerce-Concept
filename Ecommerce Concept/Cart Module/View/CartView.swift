@@ -12,7 +12,7 @@ final class CartView: UIView {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "My Cart"
-        label.font = .systemFont(ofSize: 35, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 35)
         return label
     }()
     
@@ -35,7 +35,7 @@ final class CartView: UIView {
         let label = UILabel()
         label.text = "Total"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = UIFont(name: "MarkPro", size: 15)
         return label
     }()
     
@@ -43,21 +43,21 @@ final class CartView: UIView {
         let label = UILabel()
         label.text = "Delivery"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = UIFont(name: "MarkPro", size: 15)
         return label
     }()
     
     var totalPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 15)
         return label
     }()
     
     var deliveryPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 15)
         return label
     }()
     
@@ -79,6 +79,7 @@ final class CartView: UIView {
         button.setTitle("Checkout", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
+        button.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 20)
         return button
     }()
     

@@ -27,4 +27,9 @@ final class Observable<T> {
         self.listener = listener
     }
     
+    func bindAndFire(_ listener: @escaping Listener) {
+        self.listener = listener
+        listener(value)
+    }
+    
 }

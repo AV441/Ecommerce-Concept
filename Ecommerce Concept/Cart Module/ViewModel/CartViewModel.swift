@@ -91,7 +91,7 @@ final class CartViewModel {
     func checkoutOrder() {
         // networkManager.postOrder()
         NotificationCenter.default.post(name: NSNotification.Name("clearCart"), object: nil)
-        coordinator.popViewController()
+        coordinator.backToMain()
     }
     
 }

@@ -47,11 +47,10 @@ final class CartViewController: UIViewController {
                                                          target: self,
                                                          action: nil)
         
-        let rightBarButtonItemWithLabel = UIBarButtonItem(title: "Add address",
+        let rightBarButtonItemWithLabel = UIBarButtonItem(image: UIImage(named: "AddAddress"),
                                                           style: .plain,
                                                           target: nil,
                                                           action: nil)
-        rightBarButtonItemWithLabel.tintColor = .black
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItems = [rightBarButtonItemWithIcon, rightBarButtonItemWithLabel]

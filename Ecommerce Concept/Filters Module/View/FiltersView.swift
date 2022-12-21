@@ -96,6 +96,7 @@ final class FiltersView: UIView {
         button.backgroundColor = UIColor(named: "AccentColor")
         button.layer.cornerRadius = 10
         button.setTitle("Done", for: .normal)
+        button.titleLabel?.font = UIFont(name: "MarkPro-Medium", size: 18)
         
         button.snp.makeConstraints { make in
             make.width.equalTo(86)
@@ -150,6 +151,7 @@ final class FiltersView: UIView {
         button.backgroundColor = UIColor(named: "AccentColor")
         button.setTitle("Confirm", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 20)
         button.layer.cornerRadius = 10
         return button
     }
@@ -178,7 +180,7 @@ final class FiltersView: UIView {
     private func makeLabel(with title: String) -> UILabel {
         let label = UILabel()
         label.text = title
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 18)
         return label
     }
     
@@ -188,8 +190,9 @@ final class FiltersView: UIView {
         configuration.background.image = UIImage(named: "icPicker")
         configuration.background.backgroundColor = .clear
         let button = UIButton(configuration: configuration)
-        button.setTitle("All", for: .normal)
+        button.setTitle("4.5 to 5.5 inches", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "MarkPro", size: 18)
         button.contentHorizontalAlignment = .left
         return button
     }

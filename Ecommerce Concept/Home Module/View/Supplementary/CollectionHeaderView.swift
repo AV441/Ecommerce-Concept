@@ -13,14 +13,14 @@ final class CollectionHeaderView: UICollectionReusableView {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 25)
         label.textColor = .black
         return label
     }()
     
     private var button: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        button.titleLabel?.font = UIFont(name: "MarkPro", size: 15)
         button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
         return button
     }()

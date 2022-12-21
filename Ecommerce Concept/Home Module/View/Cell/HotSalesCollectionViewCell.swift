@@ -9,13 +9,19 @@ import UIKit
 import SDWebImage
 import SnapKit
 
+protocol HotSalesCellDelegate: AnyObject {
+    func buyNowButtonTapped()
+}
+
 final class HotSalesCollectionViewCell: UICollectionViewCell {
     static let id = String(describing: HotSalesCollectionViewCell.self)
+    
+    weak var delegate: HotSalesCellDelegate?
     
     private var isNewLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(named: "AccentColor")
-        label.font = .systemFont(ofSize: 10, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 10) 
         label.textColor = .white
         label.text = "New"
         label.textAlignment = .center
@@ -25,7 +31,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.font = UIFont(name: "MarkPro-Bold", size: 25)
         label.textColor = .white
         label.text = "Iphone 12"
         return label
@@ -33,19 +39,20 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
     
     private var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = UIFont(name: "MarkPro", size: 11)
         label.textColor = .white
         label.text = "Súper. Mega. Rápido."
         return label
     }()
     
-    private var button: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton()
         button.setTitle("Buy now!", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 11, weight: .bold)
+        button.titleLabel?.font = UIFont(name: "MarkPro-Bold", size: 11)
         button.layer.cornerRadius = 5
         button.backgroundColor = .white
+        button.addTarget(self, action: #selector(didTapBuyNowButton), for: .touchUpInside)
         return button
     }()
     
@@ -108,6 +115,7 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         isNewLabel.layer.cornerRadius = isNewLabel.frame.height/2
+        contentView.isUserInteractionEnabled = false
     }
     
     func configure(withItem item: HotSaleItem) {
@@ -127,4 +135,8 @@ final class HotSalesCollectionViewCell: UICollectionViewCell {
         imageView.sd_setImage(with: imageURL)
     }
 
+    @objc
+    private func didTapBuyNowButton() {
+        delegate?.buyNowButtonTapped()
+    }
 }

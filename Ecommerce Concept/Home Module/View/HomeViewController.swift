@@ -67,6 +67,15 @@ final class HomeViewController: UIViewController {
         viewModel.updateBestsellerItem = { [unowned self] indexPath in
             self.homeView.collectionView.reloadItems(at: [indexPath])
         }
+        
+        viewModel.badgeCount.bindAndFire { [unowned self] value in
+            if value != 0 {
+                self.homeView.badge.text = value.description
+                self.homeView.badge.isHidden = false
+            } else {
+                self.homeView.badge.isHidden = true
+            }
+        }
     }
 
 }
@@ -112,6 +121,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HotSalesCollectionViewCell.id, for: indexPath) as! HotSalesCollectionViewCell
             let item = viewModel.hotSalesItems[indexPath.item]
             cell.configure(withItem: item)
+            cell.delegate = self
             return cell
         case .bestSeller:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestSellerCollectionViewCell.id, for: indexPath) as! BestSellerCollectionViewCell
@@ -177,5 +187,13 @@ extension HomeViewController: BestSellerCellDelegate {
             viewModel.favouriteButtonTapped(at: indexPath)
         }
     }
+}
 
+// HotSalesCellDelegate
+extension HomeViewController: HotSalesCellDelegate {
+    
+    func buyNowButtonTapped() {
+        viewModel.buyNow()
+    }
+    
 }

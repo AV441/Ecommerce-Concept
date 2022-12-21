@@ -28,7 +28,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     private var label: UILabel = {
         let label = UILabel()
         label.text = "Phones"
-        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 12) 
         label.textAlignment = .center
         return label
     }()

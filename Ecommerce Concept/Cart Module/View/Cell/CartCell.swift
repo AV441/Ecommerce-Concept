@@ -32,7 +32,7 @@ final class CartCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 20)
         label.numberOfLines = 0
         label.textColor = .white
         return label
@@ -40,7 +40,7 @@ final class CartCell: UITableViewCell {
     
     private var priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 20)
         label.textColor = UIColor(named: "AccentColor")
         return label
     }()
@@ -68,7 +68,7 @@ final class CartCell: UITableViewCell {
     
     private var countLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: "MarkPro-Medium", size: 20)
         label.textColor = .white
         label.text = "1"
         label.backgroundColor = .clear
@@ -118,19 +118,19 @@ final class CartCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalTo(pictureView.snp.trailing).offset(width*0.04)
-            make.height.equalToSuperview().multipliedBy(0.6)
+            make.bottom.equalTo(priceLabel.snp.top)
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(height*0.08)
             make.leading.equalTo(pictureView.snp.trailing).offset(width*0.04)
             make.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.4)
+            make.trailing.equalTo(VStack.snp.leading)
+            make.height.equalToSuperview().multipliedBy(0.3)
         }
         
         VStack.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalTo(titleLabel.snp.trailing).offset(width*0.08)
+            make.leading.equalTo(titleLabel.snp.trailing)
             make.width.equalTo(26)
             make.height.equalToSuperview()
         }
