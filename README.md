@@ -1,5 +1,5 @@
 # Ecommerce-Concept
-Conceptual Ecommerce App.  
+Conceptual Ecommerce App  
 
 Stack:
 - UIKit,
