@@ -1,14 +1,14 @@
 # Ecommerce-Concept
 Conceptual Ecommerce App  
 
-Stack:
+## Stack:
 - UIKit,
 - MVVM-C,
 - CocoaPods,
 - Alamofire,
 - SnapKit
 
-Pods: 
+## Pods: 
 - Alamofire
 - SnapKit
 - Cosmos
