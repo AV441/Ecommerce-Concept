@@ -52,15 +52,15 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     private func requestData() {
-        networkManager.requestDetailsScreenData { [unowned self] result in
+        networkManager.requestDetailsScreenData { [weak self] result in
             switch result {
                 
             case .success(let data):
-                self.detailsData = data
-                self.selectedColor.value = data.color[0]
-                self.selectedColor.value = data.capacity[0]
-                self.isFavoutite.value = data.isFavorites
-                self.updateView()
+                self?.detailsData = data
+                self?.selectedColor.value = data.color[0]
+                self?.selectedColor.value = data.capacity[0]
+                self?.isFavoutite.value = data.isFavorites
+                self?.updateView()
             case .failure(let error):
                 print(error.localizedDescription)
             }
