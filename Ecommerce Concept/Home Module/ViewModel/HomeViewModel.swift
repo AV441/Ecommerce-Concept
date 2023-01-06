@@ -69,13 +69,13 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     private func requestData() {
-        networkManager.requestHomeScreenData { result in
+        networkManager.requestHomeScreenData { [weak self] result in
             switch result {
 
             case .success(let shopItems):
-                self.hotSalesItems = shopItems.hotSales
-                self.bestSellersItems = shopItems.bestSellers
-                self.updateCollectionView()
+                self?.hotSalesItems = shopItems.hotSales
+                self?.bestSellersItems = shopItems.bestSellers
+                self?.updateCollectionView()
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }
