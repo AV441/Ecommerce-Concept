@@ -36,13 +36,13 @@ final class CartViewModel {
     }
 
     private func requestData() {
-        networkManager.requestCartScreenData { [unowned self] result in
+        networkManager.requestCartScreenData { [weak self] result in
             switch result {
 
             case .success(let apiResponse):
-                basketItems.value = apiResponse.basket
-                totalPrice.value = apiResponse.total
-                deliveryPrice.value = apiResponse.delivery
+                self?.basketItems.value = apiResponse.basket
+                self?.totalPrice.value = apiResponse.total
+                self?.deliveryPrice.value = apiResponse.delivery
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }
